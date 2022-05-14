@@ -166,7 +166,7 @@ class Organization(models.Model):
     )
     name = models.CharField(
         max_length=256,
-        verbose_name='Краткое наименование'
+        verbose_name='Наименование'
     )
     description = models.TextField(
         blank=True,
@@ -190,16 +190,197 @@ class Organization(models.Model):
     )
     website = models.CharField(
         max_length=256,
-        verbose_name='Сайт Организации',
+        verbose_name='Сайт Организации'
     )
     legal_form = models.CharField(
         max_length=256,
         verbose_name='Организационно-правовая форма',
+        db_index=True
+    )
+    leader = models.ForeignKey(
+        User,
+        related_name='organizations',
+        on_delete=models.SET_NULL,
+        verbose_name='Руководитель'
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата создания'
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Дата изменения'
     )
 
-    class Meta:
-        verbose_name = 'Организации'
-        verbose_name_plural = 'Организации'
+    def __str__(self):
+        return self.name
+
+
+class Project(models.Model):
+    name = models.CharField(
+        max_length=256,
+        verbose_name='Наименование',
+        # для ускоренной сортировки
+        db_index=True
+    )
+    full_name = models.CharField(
+        max_length=256,
+        verbose_name='Полное наименование',
+        db_index=True
+    )
+    website = models.CharField(
+        max_length=256,
+        verbose_name='Сайт Проекта',
+        db_index=True
+    )
+    material_url = models.CharField(
+        max_length=256,
+        verbose_name='Материал'
+    )
+    avatar_url = models.CharField(
+        max_length=256,
+        verbose_name='Аватар URL'
+    )
+    status = models.CharField(
+        max_length=256,
+        verbose_name='Статус проекта'
+    )
+    description = models.TextField(
+        verbose_name='Описание'
+    )
+    goal = models.TextField(
+        verbose_name='Цели'
+    )
+    result = models.TextField(
+        verbose_name='Результаты'
+    )
+    slug = models.SlugField(
+        unique=True, max_length=50,
+        db_index=True, verbose_name='Ссылка проекта'
+    )
+    organization = models.ForeignKey(
+        Organization,
+        related_name='projects',
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name='Организация'
+    )
+    user = models.ManyToManyField(
+        User,
+        related_name='projects',
+        through='UserProject',
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата создания'
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Дата изменения'
+    )
+
+    def __str__(self):
+        return self.name
+
+
+class Event(models.Model):
+    name = models.CharField(
+        max_length=100,
+        db_index=True,
+        verbose_name='Наименование события'
+    )
+    status = models.CharField(
+        max_length=256,
+        verbose_name='Статус мероприятия'
+    )
+    avatar_url = models.CharField(
+        max_length=256,
+        verbose_name='Аватар URL'
+    )
+    description = models.TextField(
+        verbose_name='Описание события'
+    )
+    date_start = models.DateTimeField(
+        verbose_name='Дата начала'
+    )
+    date_end = models.DateTimeField(
+        verbose_name='Дата завершения'
+    )
+    contact_user = models.ForeignKey(
+        User,
+        related_name='events',
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name='Контактное лицо'
+    )
+    project = models.ForeignKey(
+        Project,
+        related_name='events',
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name='Проект'
+    )
+    client = models.ManyToManyField(
+        User,
+        related_name='events',
+        through='ClientEvent',
+    )
+    slug = models.SlugField(
+        unique=True, max_length=50,
+        db_index=True, verbose_name='Ссылка события'
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата создания'
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Дата изменения'
+    )
+
+    def __str__(self):
+        return self.name
+
+
+class Function(models.Model):
+    name = models.CharField(
+        max_length=100,
+        db_index=True,
+        verbose_name='Наименование'
+    )
+    description = models.TextField(
+        verbose_name='Описание'
+    )
+    task = models.TextField(
+        verbose_name='Задачи'
+    )
+    condition = models.TextField(
+        verbose_name='Условия'
+    )
+    event = models.ForeignKey(
+        Event,
+        related_name='functions',
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name='Событие'
+    )
+    client = models.ManyToManyField(
+        User,
+        related_name='functions',
+        through='ClientFunction',
+    )
+    slug = models.SlugField(
+        unique=True, max_length=50,
+        db_index=True, verbose_name='Ссылка функции'
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата создания'
+    )
+    updated = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Дата изменения'
+    )
 
     def __str__(self):
         return self.name
