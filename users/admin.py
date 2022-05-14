@@ -39,8 +39,8 @@ class ProjectAdmin(admin.ModelAdmin):
                     'goal',
                     'result',
                     'slug',
-                    'organization',
-                    'user')
+                    'organization'
+                    )
     search_fields = ('name', 'status')
     empty_value_display = '-пусто-'
 
@@ -55,8 +55,8 @@ class EventAdmin(admin.ModelAdmin):
                     'date_end',
                     'project',
                     'slug',
-                    'contact_user',
-                    'client')
+                    'contact_user'
+                    )
     search_fields = ('name', 'status')
     empty_value_display = '-пусто-'
 
@@ -68,7 +68,6 @@ class FunctionAdmin(admin.ModelAdmin):
                     'task',
                     'condition',
                     'event',
-                    'client',
                     'slug')
     search_fields = ('name',)
     empty_value_display = '-пусто-'

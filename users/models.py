@@ -24,19 +24,19 @@ class UserManager(BaseUserManager):
         if not gender:
             raise ValueError('Не заполненое поле Пол')
         email = self.normalize_email(email)
-        user = self.model(email=email, first_name=first_name, last_name=last_name, date_birthday=date_birthday, gender=gender **extra_fields)
+        user = self.model(email=email, first_name=first_name, last_name=last_name, date_birthday=date_birthday, gender=gender, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_user(self, email, first_name, last_name, password=None, **extra_fields):
+    def create_user(self, email, first_name, last_name, date_birthday, gender, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(
-            email, first_name, last_name, password, **extra_fields
+            email, first_name, last_name, password, date_birthday, gender, **extra_fields
         )
 
-    def create_superuser(self, email, first_name, last_name, password, **extra_fields):
+    def create_superuser(self, email, first_name, last_name, date_birthday, gender, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         if extra_fields.get('is_staff') is not True:
@@ -44,7 +44,7 @@ class UserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Суперпользователь должен иметь is_superuser=True.')
         return self._create_user(
-            email, first_name, last_name, password, **extra_fields
+            email, first_name, last_name, password, date_birthday, gender, **extra_fields
         )
 
 
@@ -55,6 +55,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     STATUS_CHOICES = [
         (VOLUNTEER, 'Волонтер'),
         (ORGANIZER, 'Организатор'),
+    ]
+
+    MALE = 'Мужской'
+    FEMALE = 'Женский'
+    GENDER_CHOICES = [
+        (MALE, 'Мужской'),
+        (FEMALE, 'Женский'),
     ]
 
     email = models.EmailField(
@@ -82,30 +89,35 @@ class User(AbstractBaseUser, PermissionsMixin):
         auto_now_add=True,
         verbose_name='Дата создания'
     )
-    date_birthday = models.DateTimeField(
+    date_birthday = models.DateField(
         verbose_name='Дата рождения'
     )
     gender = models.CharField(
         max_length=7,
+        choices=GENDER_CHOICES,
         verbose_name='Пол'
     )
     info = models.TextField(
+        null=True,
         blank=True,
         verbose_name='Личная информация'
     )
     phone = models.CharField(
         max_length=15,
         null=True,
+        blank=True,
         verbose_name='Телефон'
     )
     telegram_url = models.CharField(
         max_length=256,
         null=True,
+        blank=True,
         verbose_name='Telegram URL'
     )
     vk_url = models.CharField(
         max_length=256,
         null=True,
+        blank=True,
         verbose_name='VK URL'
     )
     status = models.CharField(
@@ -201,6 +213,8 @@ class Organization(models.Model):
         User,
         related_name='organizations',
         on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
         verbose_name='Руководитель'
     )
     created = models.DateTimeField(
@@ -263,11 +277,12 @@ class Project(models.Model):
         related_name='projects',
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         verbose_name='Организация'
     )
-    user = models.ManyToManyField(
+    client = models.ManyToManyField(
         User,
-        related_name='projects',
+        related_name='projects_many',
         through='UserProject',
     )
     created = models.DateTimeField(
@@ -318,12 +333,13 @@ class Event(models.Model):
         related_name='events',
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         verbose_name='Проект'
     )
     client = models.ManyToManyField(
         User,
-        related_name='events',
-        through='ClientEvent',
+        related_name='events_many',
+        through='UserEvent',
     )
     slug = models.SlugField(
         unique=True, max_length=50,
@@ -362,12 +378,13 @@ class Function(models.Model):
         related_name='functions',
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         verbose_name='Событие'
     )
     client = models.ManyToManyField(
         User,
-        related_name='functions',
-        through='ClientFunction',
+        related_name='functions_many',
+        through='UserFunction',
     )
     slug = models.SlugField(
         unique=True, max_length=50,
@@ -384,3 +401,18 @@ class Function(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class UserProject(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+
+class UserEvent(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
+
+class UserFunction(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    function = models.ForeignKey(Function, on_delete=models.CASCADE)
