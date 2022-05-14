@@ -10,6 +10,7 @@ ALLOWED_HOSTS = ['*']
 
 
 INSTALLED_APPS = [
+    'rest_framework.authtoken',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -86,7 +87,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
-#AUTH_USER_MODEL = ''
+AUTH_USER_MODEL = 'users.User'
 
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
