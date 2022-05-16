@@ -1,0 +1,39 @@
+{% load static %}
+<header>
+  <nav class="navbar navbar-light" style="background: linear-gradient(38deg, rgba(255,255,255,1) 30%, rgba(0,0,0,1) 70%);">
+    <div class="container-fix container-header">
+      <a class="navbar-brand" href="">
+        <img src="{% static 'img/logo.png' %}" width="40" height="30" class="d-inline-block align-top" alt="">
+        <span class="title-name1 inglobal-bold">ЖИ</span><span class="title-name2 inglobal-bold">ВИ</span>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/fontawesome-all.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+      </a>
+      <ul class="nav" id="nav">
+        {% if request.user.is_authenticated %}
+            <li class="nav-item">
+                <div class="user-menu"><div class="user-menu-container" id="user-menu-container" v-on:click="openMenu">
+                      <img width="35" height="35" class="user-avatar" src="{% static request.user.avatar_url %}">
+                      <span class="user-name">{{ request.user.first_name }}</span>
+                    </div>
+                    <div class="menu-user-div" :key="menuUser" v-if="menuUser">
+                        <ul class="menu-user-ul">
+                             <li><a class="menu-user-a menu-user-a-profile" href="">Профиль</a></li>
+                             <li><a class="menu-user-a" href="">Статистика</a></li>
+                             <li><a class="menu-user-a menu-user-a-exit" href="{% url 'auth_users:logout' %}">Выйти</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        {% else %}
+            <li class="nav-item">
+              <a class="nav-link link-light inglobal-bold" href="{% url 'auth_users:login' %}">Войти</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link link-light inglobal-bold" href="{% url 'auth_users:registration' %}">Регистрация</a>
+            </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+</header>

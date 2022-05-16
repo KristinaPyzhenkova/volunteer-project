@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    Test
-</body>
+{% load static %}
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <meta name="msapplication-TileColor" content="#000">
+    <meta name="theme-color" content="#ffffff">
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    {% include 'includes/header.html' %}
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    {% include 'includes/footer.html' %}
+  </body>
+  <script src="{% static 'js/header.js' %}"></script>
 </html>
+
