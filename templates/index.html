@@ -2,5 +2,23 @@
 {% load static %}
 {% block title %}Живи{% endblock %}
 {% block content %}
-asdasdasdasd
+<!--    <div class="limiter">-->
+<!--      <div class="container-fix">-->
+          <div class="index-background">
+              <h2 class="cl_h2">Ближайшие мероприятия</h2>
+                    <div>
+                        <ul>
+                            {% for event in events %}
+                                <li>
+                                    <div class="index-list">
+                                        <a href="{% url 'events:event_detail' pk=event.pk %}"> {{ event.name }}</a>
+                                        <br> Место проведения: {{ event.status }} <br> {{ event.date_start|date:"d E Y" }} -  {{ event.date_end|date:"d E Y" }}
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+          </div>
+<!--      </div>-->
+<!--    </div>-->
 {% endblock %}
