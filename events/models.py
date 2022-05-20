@@ -16,10 +16,12 @@ class Event(models.Model):
     )
     avatar_url = models.CharField(
         max_length=256,
-        verbose_name='Аватар URL'
+        verbose_name='Аватар URL',
+        blank=True
     )
     description = models.TextField(
-        verbose_name='Описание события'
+        verbose_name='Описание события',
+        blank=True
     )
     date_start = models.DateTimeField(
         verbose_name='Дата начала'
@@ -32,7 +34,8 @@ class Event(models.Model):
         related_name='events',
         on_delete=models.SET_NULL,
         null=True,
-        verbose_name='Контактное лицо'
+        verbose_name='Контактное лицо',
+        blank=True
     )
     project = models.ForeignKey(
         Project,

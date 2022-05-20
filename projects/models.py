@@ -23,24 +23,30 @@ class Project(models.Model):
     )
     material_url = models.CharField(
         max_length=256,
-        verbose_name='Материал'
+        verbose_name='Материал',
+        blank=True
     )
     avatar_url = models.CharField(
         max_length=256,
-        verbose_name='Аватар URL'
+        verbose_name='Аватар URL',
+        blank=True
     )
     status = models.CharField(
         max_length=256,
-        verbose_name='Статус проекта'
+        verbose_name='Статус проекта',
+        blank=True
     )
     description = models.TextField(
-        verbose_name='Описание'
+        verbose_name='Описание',
+        blank=True
     )
     goal = models.TextField(
-        verbose_name='Цели'
+        verbose_name='Цели',
+        blank=True
     )
     result = models.TextField(
-        verbose_name='Результаты'
+        verbose_name='Результаты',
+        blank=True
     )
     slug = models.SlugField(
         unique=True, max_length=50,
