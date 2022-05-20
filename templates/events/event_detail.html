@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Живи{% endblock %}
+{% block content %}
+<div class="limiter">
+      <div class="container-fix">
+            <div>
+
+            </div>
+
+            <h2 class="cl_h2">{{ event.name }}</h2>
+            <div style="width:100%; height:1px; clear:both;"></div>
+            <div style="display: flex">
+                  <div class="line_block_detail_1">
+                        <img src="{{ event.avatar_url }}" width="120" height="120">
+                        <p>18 волонтеров подали заявку на текущее мероприятие</p>
+                        <form>
+                              <button>Присоединиться</button>
+                        </form>
+                  </div>
+                  <div>
+                        <div style="display: flex">
+                              <div class="line_block_detail_2">
+                                    <ul>
+                                          <h3 style="font-family: Montserrat-Regular;font-size: 18px; font-weight: bold;">Основная информация:</h3>
+                                          <li>
+                                               <p><img src="/static/img/organ.png" width="30" height="35"> Организация</p>
+                                          </li>
+                                          <li>
+                                               <p><img src="/static/img/geo.png" width="30" height="30"> {{ event.status }}</p>
+                                          </li>
+                                          <li>
+                                                <p><img src="/static/img/date.png" width="25" height="25"> {{ event.date_start }} - {{ event.date_end }}</p>
+                                          </li>
+                                    </ul>
+                              </div>
+                              <div class="line_block_detail_3">
+                                    <ul>
+                                          <h3 style="font-family: Montserrat-Regular;font-size: 18px;font-weight: bold;">Контанктное лицо:</h3>
+                                          <li>
+                                               <p><img src="/static/img/mail.png" width="30" height="30"> 123@mail.ru</p>
+                                          </li>
+                                    </ul>
+                              </div>
+                        </div>
+                        <div class="line_block_detail_4">
+                              <h3 style="font-family: Montserrat-Regular;font-size: 18px;font-weight: bold;">Описание</h3>
+                              <p>{{ event.description }}</p>
+                        </div>
+                  </div>
+            </div>
+            <div style="width:100%; height:1px; clear:both;"></div>
+      </div>
+</div>
+{% endblock %}
