@@ -64,9 +64,18 @@ class AuthUserForm(forms.Form):
 
 class RegistrationUserForm(UserCreationForm):
 
+    MALE = 'Мужской'
+    FEMALE = 'Женский'
+    GENDER_CHOICES = [
+        (MALE, 'Мужской'),
+        (FEMALE, 'Женский'),
+    ]
+
     email = forms.EmailField(label="email", max_length=256, widget=forms.EmailInput(attrs={'placeholder': 'Email'}))
     first_name = forms.CharField(label="first_name", max_length=30, widget=forms.TextInput(attrs={'placeholder': 'Имя'}))
     last_name = forms.CharField(label="last_name", max_length=30, widget=forms.TextInput(attrs={'placeholder': 'Фамилия'}))
+    gender = forms.ChoiceField(label="gender", choices=GENDER_CHOICES, widget=forms.Select(attrs={'placeholder': 'Пол'}))
+    date_birthday = forms.DateField(label="gender", widget=forms.DateInput(attrs={'type': 'date', 'placeholder': 'Дата рождения'}))
     password1 = forms.CharField(label="password", widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}))
     password2 = forms.CharField(label="confirm_password", widget=forms.PasswordInput(attrs={'placeholder': 'Подтверждение пароля'}))
 
@@ -79,7 +88,7 @@ class RegistrationUserForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('email', 'first_name', 'last_name')
+        fields = ('email', 'first_name', 'last_name', 'gender', 'date_birthday')
 
     def clean_first_name(self):
         first_name = self.cleaned_data.get("first_name")
