@@ -4,64 +4,66 @@
 {% block content %}
 {% load user_filters %}
 <div class="limiter">
-  <div class="container-login100">
-    <div class="wrap-login100 p-t-190 p-b-30">
-      <form class="login100-form validate-form" method="post"
-            {% if action_url %}
-              action="{% url action_url %}"
-            {% endif %}>
-        {% csrf_token %}
-        <div class="login100-form-avatar">
-          <img src="{% static 'img/login/login.png' %}">
-        </div>
-        <span class="login100-form-title p-t-20 p-b-45">
-        Регистрация
-        </span>
-
-        {% for field in form %}
-          <div class="wrap-input100 validate-input m-b-10"
-               {% if field.field.required %}
-                aria-required="true"
-              {% else %}
-                aria-required="false"
+  <div class="container-fix">
+    <div class="container-login100">
+      <div class="wrap-login100 p-t-190 p-b-30">
+        <form class="login100-form validate-form" method="post"
+              {% if action_url %}
+                action="{% url action_url %}"
               {% endif %}>
-            {{ field|add_class:'input100'}}
-            <span class="focus-input100"></span>
-            <span class="symbol-input100">
-              {% if field.value == None %}
-              {% elif field.label == 'password' and form.password2.errors %}
-                <i class="fa fa-times-circle"></i>
-              {% elif field.errors %}
-                <i class="fa fa-times-circle"></i>
-              {% else %}
-                <i class="fa fa-check-circle"></i>
-              {% endif %}
-            </span>
+          {% csrf_token %}
+          <div class="login100-form-avatar">
+            <img src="{% static 'img/login.png' %}">
           </div>
-          {% if field.errors %}
-            <div class="alert-reg">
-            {% for error in field.errors %}
-              <div class="alert-reg1">
-                <i class="fa fa-circle"></i>
-                {{ error|escape }}
-              </div>
-            {% endfor %}
-            {% for error in form.non_field_errors %}
-              <div class="alert-reg1">
-                <i class="fa fa-circle"></i>
-                {{ error|escape }}
-              </div>
-            {% endfor %}
+          <span class="login100-form-title p-t-20 p-b-45">
+          Регистрация
+          </span>
+
+          {% for field in form %}
+            <div class="wrap-input100 validate-input m-b-10"
+                 {% if field.field.required %}
+                  aria-required="true"
+                {% else %}
+                  aria-required="false"
+                {% endif %}>
+              {{ field|add_class:'input100'}}
+              <span class="focus-input100"></span>
+              <span class="symbol-input100">
+                {% if field.value == None %}
+                {% elif field.label == 'password' and form.password2.errors %}
+                  <i class="fa fa-times-circle"></i>
+                {% elif field.errors %}
+                  <i class="fa fa-times-circle"></i>
+                {% else %}
+                  <i class="fa fa-check-circle"></i>
+                {% endif %}
+              </span>
             </div>
-          {% else %}
-          {% endif %}
-        {% endfor %}
-        <div class="container-login100-form-btn p-t-10">
-          <button type="submit" class="login100-form-btn">
-          Зарегистрироваться
-          </button>
-        </div>
-      </form>
+            {% if field.errors %}
+              <div class="alert-reg">
+              {% for error in field.errors %}
+                <div class="alert-reg1">
+                  <i class="fa fa-circle"></i>
+                  {{ error|escape }}
+                </div>
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                <div class="alert-reg1">
+                  <i class="fa fa-circle"></i>
+                  {{ error|escape }}
+                </div>
+              {% endfor %}
+              </div>
+            {% else %}
+            {% endif %}
+          {% endfor %}
+          <div class="container-login100-form-btn p-t-10">
+            <button type="submit" class="login100-form-btn">
+            Зарегистрироваться
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

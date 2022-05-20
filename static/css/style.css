@@ -5,25 +5,25 @@
 @font-face{font-family:rouble;src:url(../fonts/rouble.otf)}
 .container-text{display:flex;width:100%}
 .txt1{font-family:Montserrat-Regular;font-size:16px;color:#ccc;line-height:1.4;text-decoration:none;}
-.txt1:hover{color: #fff}
+.txt1:hover{color: #fff;}
 .w-full{width:50%}
 .p-b-230{padding-bottom:20px;}
 .p-t-25{padding-top:25px;}
 .limiter{width:100%;margin:0 auto}
-.container-login100{height:80%;width:100%;display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;padding:15px;background-repeat:no-repeat;background-size:cover;background-position:center;position:relative;z-index:1}
+.container-login100{min-height:50em;width:100%;display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;padding:15px;background-repeat:no-repeat;background-size:cover;background-position:center;position:relative;z-index:1}
 .container-login100::before{content:"";display:block;position:absolute;z-index:-1;width:100%;height:100%;top:0;left:0;background:#005bea;background:-webkit-linear-gradient(bottom,#005bea,#00c6fb);background:-o-linear-gradient(bottom,#005bea,#00c6fb);background:-moz-linear-gradient(bottom,#005bea,#00c6fb);background:linear-gradient(bottom,#005bea,#00c6fb);opacity:.9}
 .wrap-login100{width:390px;background:0 0}
 .login100-form{width:100%;display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;justify-content:space-between;flex-wrap:wrap}
 .login100-form-title{margin-bottom:30px;margin-top:20px;font-family:Montserrat-ExtraBold;font-size:24px;color:#fff;line-height:1.2;text-align:center;width:100%;display:block}
-.login100-form-avatar{width:120px;height:120px;border-radius:50%;overflow:hidden;margin:0 auto;margin-top:10px;}
-.login100-form-avatar img{width:100%}
+.login100-form-avatar{width:100px;height:100px;border-radius:50%;overflow:hidden;margin:0 auto;margin-top:10px;}
+.login100-form-avatar img{width:100%; background-color: #ffffff;}
 .wrap-input100{position:relative;width:100%;z-index:1;margin-bottom:15px;}
 .input100{font-family:Montserrat-Bold;font-size:15px;line-height:1.2;color:#333;display:block;width:100%;background:#fff;height:50px;border-radius:25px;padding:0 30px 0 53px;border:1px solid rgb(0,0,0,0.2)}
 .focus-input100{display:block;position:absolute;border-radius:25px;bottom:0;left:0;z-index:-1;width:100%;height:100%;box-shadow:0 0;color:rgba(0,91,234,.6)}
 .input100:focus+.focus-input100{-webkit-animation:anim-shadow .5s ease-in-out forwards;animation:anim-shadow .5s ease-in-out forwards}@-webkit-keyframes anim-shadow{to{box-shadow:0 0 80px 30px;opacity:0}}@keyframes anim-shadow{to{box-shadow:0 0 80px 30px;opacity:0}}
 .symbol-input100{font-size:15px;color:#999;display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;align-items:center;position:absolute;border-radius:25px;bottom:0;left:0;width:100%;height:100%;padding-left:30px;pointer-events:none;-webkit-transition:all .4s;-o-transition:all .4s;-moz-transition:all .4s;transition:all .4s}
 .input100:focus+.focus-input100+.symbol-input100{color:#00c6fb;padding-left:23px}
-.container-login100-form-btn{width:100%;display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;flex-wrap:wrap;justify-content:center}
+.container-login100-form-btn{text-decoration: none;width:100%;display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;flex-wrap:wrap;justify-content:center}
 .login100-form-btn{margin-top:10px;border:none;font-family:Montserrat-Bold;font-size:15px;line-height:1.5;color:#e0e0e0;width:100%;height:50px;border-radius:25px;background:#333;display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;justify-content:center;align-items:center;padding:0 25px;-webkit-transition:all .4s;-o-transition:all .4s;-moz-transition:all .4s;transition:all .4s;position:relative;z-index:1}
 .login100-form-btn::before{content:"";display:block;position:absolute;z-index:-1;width:100%;height:100%;border-radius:25px;top:0;left:0;background:#005bea;background:-webkit-linear-gradient(left,#005bea,#00c6fb);background:-o-linear-gradient(left,#005bea,#00c6fb);background:-moz-linear-gradient(left,#005bea,#00c6fb);background:linear-gradient(left,#005bea,#00c6fb);-webkit-transition:all .4s;-o-transition:all .4s;-moz-transition:all .4s;transition:all .4s;opacity:0}
 .login100-form-btn:hover{background:0 0;color:#fff}.login100-form-btn:hover:before{opacity:1}.btn-face,.btn-google{font-family:Raleway-Bold;font-size:16px;line-height:1.2;display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;justify-content:center;align-items:center;width:calc((100% - 10px)/2);height:40px;border-radius:3px;border:1px solid #e6e6e6;background-color:#fff;-webkit-transition:all .4s;-o-transition:all .4s;-moz-transition:all .4s;transition:all .4s}
@@ -34,6 +34,7 @@
 .alert-validate::after{content:"\f06a";font-family:FontAwesome;display:block;position:absolute;color:#c80000;font-size:15px;top:50%;-webkit-transform:translateY(-50%);-moz-transform:translateY(-50%);-ms-transform:translateY(-50%);-o-transform:translateY(-50%);transform:translateY(-50%);right:13px}
 .alert-validate:hover:before{visibility:visible;opacity:1}@media(max-width:992px){.alert-validate::before{visibility:visible;opacity:1}}@media(max-width:576px){.wrap-login100{padding-top:80px;padding-left:15px;padding-right:15px}}
 :active,:hover,:focus {outline:0;outline-offset: 0;}
+
 
 .title-name1 {
     color: red;
@@ -48,9 +49,9 @@
     width: 100%;
     margin-left: 20px;
     margin-bottom: 15px;
-    font-size: 12px;
+    font-size: 15px;
     display: inline-block;
-    font-family:Montserrat-Regular;
+    font-family: Montserrat-Regular;
 }
 .fa-circle{
     font-size: 5px;
@@ -100,7 +101,7 @@
 .inglobal-bold {
     font-family: inglobal-Bold;
 }
-.link-light:hover{color:#333333}
+.link-light:hover{color:#5CB9FF;}
 .user-name {
     font-size: 15px;
     font-family: inglobal-Bold;
@@ -120,6 +121,7 @@
     border: 1px solid rgba(0,0,0,0.15);
     box-shadow: 0 1px 1px rgba(50,50,50,0.1);
     outline: none;
+    z-index: 9999;
     color: #8AA8BD;
 }
 
@@ -178,6 +180,7 @@
     background-color: #ffffff;
     border-radius: 10px;
     padding: 10px 10px;
+    margin-bottom: 20px;
 }
 
 .tg, .vk, .yt {

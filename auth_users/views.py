@@ -1,6 +1,8 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, PasswordResetView
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView
 
 from auth_users.forms import AuthUserForm, RegistrationUserForm, PassResetForm
