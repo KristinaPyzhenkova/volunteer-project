@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load user_filters %}
+{% load static %}
+{% block title %}Волонтер - {{user.get_full_name}}{% endblock %}
+{% block content %}
+    <div class="limiter cl-gr">
+        <div class="container-fix">
+            <div class="content-c d-flex">
+                <div class="content-l">
+                    <div class="content d-flex">
+                        <img width="180" height="180" class="user-avatar" src="{{user.avatar.url}}">
+                        <div class="profile-title">
+                            <span class="profile-name">{{user.get_full_name}}</span>
+                            <span class="profile-status">{{user.status}}</span>
+                            {% if request.user.pk == user.pk %}
+                                <a href="{% url 'users:edit' %}">Редактировать</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="profile-info">
+                        <div class="profile-info-title">
+                            <span>Личная информация</span>
+                        </div>
+                        <div class="profile-info-txt">
+                            {{user.info|safe}}
+                        </div>
+                    </div>
+                    <div class="profile-info">
+                        <div class="profile-info-title">
+                            <span>Направления</span>
+                        </div>
+                        <div class="profile-info-txt">
+                            {% for direction in user.direction.all %}
+                                <span>{{direction.name}}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="profile-info">
+                        <div class="profile-info-title">
+                            <span>Мероприятия</span>
+                        </div>
+                        <div class="profile-info-txt">
+                            {% for event in user.events_many.all %}
+                                <a href="{% url 'events:event_detail' pk=event.pk %}">{{event.name}}</a><br>
+                                {{event.status}}<br>
+                                {{event.date_start}} - {{event.date_end}}<br>
+                            {% endfor %}
+                            <a href="{% url 'users:events' pk=user.pk %}">Смотреть все</a><br>
+                        </div>
+                    </div>
+                    <div class="profile-info">
+                        <div class="profile-info-title">
+                            <span>Отзывы</span>
+                        </div>
+                        <div class="profile-info-txt">
+                            {% for review in user.reviews_user.all %}
+                                <div class="profile-review">
+                                    <a href="{% url 'projects:project_detail' pk=review.organization.pk %}">{{review.organization.name}}</a><br>
+                                    <a href="{% url 'events:event_detail' pk=review.event.pk %}">{{review.event.name}}</a><br>
+                                    {{review.rating}}<br>
+                                    {{review.review}}<br><br>
+                                </div>
+                            {% endfor %}
+                            <a href="{% url 'users:reviews' pk=user.pk %}">Смотреть все</a><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-r">
+                    <div class="cr-r-title cr-r-title-stat">
+                        <i class="fa-solid fa-ranking-star"></i>
+                        <span>Статистика</span>
+                    </div>
+                    <div class="cr-r-info">
+                        <span class="stat-num">{{stats_review}}</span>
+                        <span class="stat-name">{% declension stats_review 'Отзыв' 'Отзыва' 'Отзывов' %}</span>
+                        <span class="stat-num">{{stats_event}}</span>
+                        <span class="stat-name">{% declension stats_event 'Мероприятие' 'Мероприятия' 'Мероприятий' %}</span>
+                    </div>
+                    <div class="cr-r-title">
+                        <i class="fa-solid fa-ranking-star"></i>
+                        <span>Рейтинг</span>
+                    </div>
+                    <div class="cr-r-info">
+                        <div class="cr-r-stars">
+                            <span>{{rating}}</span>
+                            {% for x in 5|times%}
+                                {% if x|rating_counter:rating > 100 %}
+                                    <i class="fa-solid fa-star star-s" style="background-image: linear-gradient(90deg, #ffe700 100%, #C7C7C7 0%);"></i>
+                                {% elif x|rating_counter:rating > 0 %}
+                                    <i class="fa-solid fa-star star-s" style="background-image: linear-gradient(90deg, #ffe700 {{x|rating_counter:rating}}%, #C7C7C7 0%);"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-star star-s" style="background-image: linear-gradient(90deg, #ffe700 0%, #C7C7C7 100%);"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="cr-r-title">
+                        <i class="fa-solid fa-certificate"></i>
+                        <span>Сертификаты</span>
+                    </div>
+                    <div class="cr-r-info">
+                        <div class="cr-r-content" id="modalCert">
+                            {% for certificate in user.certificates.all %}
+                                <img height="50" width="80" src="{% static certificate.url %}" v-on:click="openModal('{% static certificate.url %}')">
+                            {% endfor %}
+                            <br><a href="{% url 'users:certificates' pk=user.pk %}">Смотреть все</a><br>
+                            <div class="modalDialog" :key="isModal" v-if="isModal">
+                                <div>
+                                    <img height="500" width="800" :src="src" v-on:click="openModal">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script src="{% static 'js/volunteer.js' %}"></script>
+{% endblock %}

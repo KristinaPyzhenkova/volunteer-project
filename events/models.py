@@ -50,10 +50,6 @@ class Event(models.Model):
         related_name='events_many',
         through='UserEvent',
     )
-    slug = models.SlugField(
-        unique=True, max_length=50,
-        db_index=True, verbose_name='Ссылка события'
-    )
     created = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Дата создания'
@@ -98,10 +94,6 @@ class Function(models.Model):
         User,
         related_name='functions_many',
         through='UserFunction',
-    )
-    slug = models.SlugField(
-        unique=True, max_length=50,
-        db_index=True, verbose_name='Ссылка функции'
     )
     created = models.DateTimeField(
         auto_now_add=True,

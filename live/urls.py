@@ -13,7 +13,6 @@ urlpatterns = [
     path('projects/', include('projects.urls', namespace='projects')),
     path('', HomeView.as_view(), name='live_index'),
     path('auth/', include('auth_users.urls', namespace='auth_users')),
-    path('auth/', include('django.contrib.auth.urls')),
     path('volunteers/', include('users.urls', namespace='users')),
 ]
 

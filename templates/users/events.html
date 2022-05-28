@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load user_filters %}
+{% load static %}
+{% block title %}Мероприятия волонтера{% endblock %}
+{% block content %}
+    <div class="limiter cl-gr">
+        <div class="container-fix">
+            <div class="content-c">
+                {% for event in object_list %}
+                    <a href="{% url 'events:event_detail' pk=event.pk %}">{{event.name}}</a><br>
+                    {{event.status}}<br>
+                    {{event.date_start}} - {{event.date_end}}<br><br>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

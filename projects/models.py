@@ -48,10 +48,6 @@ class Project(models.Model):
         verbose_name='Результаты',
         blank=True
     )
-    slug = models.SlugField(
-        unique=True, max_length=50,
-        db_index=True, verbose_name='Ссылка проекта'
-    )
     organization = models.ForeignKey(
         Organization,
         related_name='projects',

@@ -12,25 +12,25 @@
       <ul class="nav" id="nav">
         {% if request.user.is_authenticated %}
             <li class="nav-item">
-              <a class="navbar-link" href="{% url 'live_index' %}">Главная</a>
+              <a class="nav-link link-light inglobal-bold" href="{% url 'live_index' %}">Главная</a>
             </li>
             <li class="nav-item">
-              <a class="navbar-link" href="{% url 'events:event_list' %}">Мероприятия</a>
+              <a class="nav-link link-light inglobal-bold" href="{% url 'events:event_list' %}">Мероприятия</a>
             </li>
             <li class="nav-item">
-              <a class="navbar-link" href="{% url 'projects:projects_list' %}">Проекты</a>
+              <a class="nav-link link-light inglobal-bold" href="{% url 'projects:projects_list' %}">Проекты</a>
             </li>
             <li class="nav-item">
-              <a class="navbar-link" href="">Организаторы</a>
+              <a class="nav-link link-light inglobal-bold" href="">Организаторы</a>
             </li>
             <li class="nav-item">
                 <div class="user-menu"><div class="user-menu-container" id="user-menu-container" v-on:click="openMenu">
-                      <img width="35" height="35" class="user-avatar" src="{% static request.user.avatar_url %}">
+                      <img width="35" height="35" class="user-avatar" src="{{request.user.avatar.url}}">
                       <span class="user-name">{{ request.user.first_name }}</span>
                     </div>
                     <div class="menu-user-div" :key="menuUser" v-if="menuUser">
                         <ul class="menu-user-ul">
-                             <li><a class="menu-user-a menu-user-a-profile" href="">Профиль</a></li>
+                             <li><a class="menu-user-a menu-user-a-profile" href="{% url 'users:volunteer_detail' pk=request.user.pk %}">Профиль</a></li>
                              <li><a class="menu-user-a" href="">Статистика</a></li>
                              <li><a class="menu-user-a menu-user-a-exit" href="{% url 'auth_users:logout' %}">Выйти</a></li>
                         </ul>

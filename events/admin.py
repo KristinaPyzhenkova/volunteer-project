@@ -12,7 +12,6 @@ class EventAdmin(admin.ModelAdmin):
                     'date_start',
                     'date_end',
                     'project',
-                    'slug',
                     'contact_user'
                     )
     search_fields = ('name', 'status')
@@ -25,8 +24,7 @@ class FunctionAdmin(admin.ModelAdmin):
                     'description',
                     'task',
                     'condition',
-                    'event',
-                    'slug')
+                    'event')
     search_fields = ('name',)
     empty_value_display = '-пусто-'
 

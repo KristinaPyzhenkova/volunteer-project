@@ -2,6 +2,7 @@ from django.views.generic import DetailView, ListView
 
 from .models import Project
 
+
 class ProjectDetail(DetailView):
     model = Project
     template_name = 'projects/project_detail.html'

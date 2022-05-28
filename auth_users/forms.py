@@ -75,7 +75,7 @@ class RegistrationUserForm(UserCreationForm):
     first_name = forms.CharField(label="first_name", max_length=30, widget=forms.TextInput(attrs={'placeholder': 'Имя'}))
     last_name = forms.CharField(label="last_name", max_length=30, widget=forms.TextInput(attrs={'placeholder': 'Фамилия'}))
     gender = forms.ChoiceField(label="gender", choices=GENDER_CHOICES, widget=forms.Select(attrs={'placeholder': 'Пол'}))
-    date_birthday = forms.DateField(label="gender", widget=forms.DateInput(attrs={'type': 'date', 'placeholder': 'Дата рождения'}))
+    date_birthday = forms.DateField(label="date_birthday", widget=forms.DateInput(attrs={'type': 'date', 'placeholder': 'Дата рождения'}))
     password1 = forms.CharField(label="password", widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}))
     password2 = forms.CharField(label="confirm_password", widget=forms.PasswordInput(attrs={'placeholder': 'Подтверждение пароля'}))
 

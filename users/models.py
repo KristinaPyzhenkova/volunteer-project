@@ -1,7 +1,11 @@
+import os
+
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.core.mail import send_mail
 from django.db import models
+
+from live import settings
 
 
 class UserManager(BaseUserManager):
@@ -19,7 +23,8 @@ class UserManager(BaseUserManager):
         if not gender:
             raise ValueError('Не заполненое поле Пол')
         email = self.normalize_email(email)
-        user = self.model(email=email, first_name=first_name, last_name=last_name, date_birthday=date_birthday, gender=gender, **extra_fields)
+        user = self.model(email=email, first_name=first_name, last_name=last_name, date_birthday=date_birthday,
+                          gender=gender, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -43,7 +48,32 @@ class UserManager(BaseUserManager):
         )
 
 
+class Direction(models.Model):
+    name = models.CharField(
+        max_length=256,
+        verbose_name='Наименование',
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата создания'
+    )
+
+    class Meta:
+        verbose_name = 'Направления'
+        verbose_name_plural = 'Направления'
+
+    def __str__(self):
+        return self.name
+
+
 class User(AbstractBaseUser, PermissionsMixin):
+
+    def user_avatar_path(instance, filename):
+        ext = filename.split('.')[-1]
+        fullname = f'users/avatars/{instance.pk}.{ext}'
+        if os.path.exists(os.path.join(settings.MEDIA_ROOT, fullname)):
+            os.remove(os.path.join(settings.MEDIA_ROOT, fullname))
+        return f'users/avatars/{instance.pk}.{ext}'
 
     VOLUNTEER = 'Волонтер'
     ORGANIZER = 'Организатор'
@@ -121,10 +151,16 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=VOLUNTEER,
         verbose_name='Статус'
     )
-    avatar_url = models.CharField(
-        max_length=256,
-        default='img/profile.png',
-        verbose_name='Аватар URL'
+    avatar = models.ImageField(
+        upload_to=user_avatar_path,
+        default='users/avatars/profile.png',
+        verbose_name='Аватар'
+    )
+    direction = models.ManyToManyField(
+        Direction,
+        related_name='users_direction',
+        through='UserDirection',
+        verbose_name='Направления'
     )
 
     objects = UserManager()
@@ -149,3 +185,67 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f'{self.get_full_name()} <{self.email}>'
+
+
+class UserDirection(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    direction = models.ForeignKey(Direction, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'UserDirection'
+        verbose_name_plural = 'UserDirection'
+
+
+class Certificate(models.Model):
+    url = models.CharField(
+        max_length=256,
+        verbose_name='Сертификат URL',
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='certificates'
+    )
+    created = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата создания'
+    )
+
+    class Meta:
+        verbose_name = 'Сертификаты'
+        verbose_name_plural = 'Сертификаты'
+
+
+class ReviewUser(models.Model):
+    volunteer = models.ForeignKey(
+        User,
+        related_name='reviews_user',
+        on_delete=models.CASCADE,
+        verbose_name='Волонтер'
+    )
+    organization = models.ForeignKey(
+        'organizations.Organization',
+        related_name='reviews_user',
+        on_delete=models.CASCADE,
+        verbose_name='Организация'
+    )
+    event = models.ForeignKey(
+        'events.Event',
+        related_name='reviews_user',
+        on_delete=models.CASCADE,
+        verbose_name='Мероприятие'
+    )
+    review = models.TextField(
+        verbose_name='Отзыв'
+    )
+    rating = models.FloatField(
+        verbose_name='Рейтинг'
+    )
+    created = models.DateField(
+        auto_now_add=True,
+        verbose_name='Дата создания'
+    )
+
+    class Meta:
+        verbose_name = 'Отзывы'
+        verbose_name_plural = 'Отзывы'
