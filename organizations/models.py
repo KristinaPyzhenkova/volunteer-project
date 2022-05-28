@@ -65,3 +65,32 @@ class Organization(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ReviewOrganization(models.Model):
+    organization = models.ForeignKey(
+        Organization,
+        related_name='reviews_org',
+        on_delete=models.CASCADE,
+        verbose_name='Организация'
+    ),
+    volunteer = models.ForeignKey(
+        User,
+        related_name='reviews_org',
+        on_delete=models.CASCADE,
+        verbose_name='Волонтер'
+    ),
+    review = models.TextField(
+        verbose_name='Отзыв'
+    ),
+    rating = models.FloatField(
+        verbose_name='Рейтинг'
+    ),
+    created = models.DateField(
+        auto_now_add=True,
+        verbose_name='Дата создания'
+    )
+
+    class Meta:
+        verbose_name = 'Отзывы'
+        verbose_name_plural = 'Отзывы'

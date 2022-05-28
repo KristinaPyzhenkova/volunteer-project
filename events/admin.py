@@ -26,6 +26,7 @@ class FunctionAdmin(admin.ModelAdmin):
                     'condition',
                     'event',
                     'count')
+
     search_fields = ('name',)
     empty_value_display = '-пусто-'
 

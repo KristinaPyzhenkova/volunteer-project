@@ -114,7 +114,7 @@
 
 .menu-user-div {
     position: absolute;
-    top: 55px;
+    top: 57px;
     width: 150px;
     background: #fff;
     border-radius: 7px;
@@ -127,13 +127,13 @@
 
 .menu-user-div::before {
     content: '';
-    border: 9px solid transparent;
+    border: 8px solid transparent;
     /* треугоничек будет смотреть вниз
        имитируем облачко диалога
     */
     border-bottom-color: lightgray;
     position: absolute;
-    margin: -18px 0 0 9px;
+    margin: -17px 0 0 9px;
 }
 
 .menu-user-ul {
@@ -158,6 +158,7 @@
     transition: all 0.3s ease-out;
     font-family: Italic, sans-serif;
     font-size: 13px;
+    font-family: Montserrat-Regular;
 }
 
 .menu-user-a:hover {
@@ -310,14 +311,7 @@
 .content-c {
     background-color: #ffffff;
     width: 100%;
-    padding-bottom: 1em;
-    padding-left: 1em;
-    padding-right: 1em;
-}
-
-.content {
-    background-color: #ffffff;
-    width: 100%;
+    padding: 1em 1em;
 }
 
 .container-course{
@@ -503,6 +497,7 @@
 }
 
 .content-r {
+    padding-top: 1em;
     width: 30%;
 }
 
@@ -894,9 +889,13 @@
     align-items: center;
 }
 
-.cr-info, .cr-thr, .cr-r-content {
+.cr-info, .cr-thr, {
     width: 100%;
     margin-bottom: 2em;
+}
+
+.cr-r-content {
+    text-align: center;
 }
 
 .cd-info-title{
@@ -1020,11 +1019,24 @@
 }
 
 .cr-r-title{
-    margin-bottom: 1em;
+    margin-bottom: 1.5em;
+}
+
+.cr-r-title-stat{
+    margin-bottom: 0.8em;
 }
 
 .cr-r-stars {
-    text-align: center;
+    align-items:center;
+    justify-content: center;
+    display:flex;
+}
+
+.cr-r-stars span {
+    font-family: Montserrat-Bold;
+    font-size: 1.3em;
+    padding: 0 1em;
+    padding-top: 0.4em;
 }
 
 .cr-r-rating {
@@ -1152,11 +1164,14 @@
 
 .index-background {
     width: 100%;
+<<<<<<< HEAD
+=======
     height: 100%;
     justify-content: center;
     align-items: center;
     flex-direction: row;
     object-fit:cover;
+>>>>>>> 6e9d3b1da1f9d2d965050f8229ec951a20b405e7
     background: url(/static/img/map.png) repeat-y #F5F5F5;
     background-size: contain;
     background-repeat: no-repeat;
@@ -1209,6 +1224,10 @@
     text-align: center;
     padding: 7px 8px;
     text-decoration: none;
+}
+
+.navbar-brand {
+
 }
 
 .navbar-link {
@@ -1494,6 +1513,155 @@
     color: black;
     padding: 10px 8px;
     text-align: left;
+}
+
+.profile-title {
+    padding: 1em 2em;
+}
+
+.profile-title span {
+    display: block;
+}
+
+.mont-reg {
+    font-family: Montserrat-Regular;
+}
+
+.mont-bold {
+    font-family: Montserrat-Bold;
+}
+
+.mont-extrabold {
+    font-family: Montserrat-ExtraBold;
+}
+
+.profile-name {
+    font-family: Montserrat-ExtraBold;
+    font-size: 2em;
+}
+
+.profile-status, .profile-date-reg {
+    font-family: Montserrat-Regular;
+    font-size: 1em;
+}
+
+.profile-info {
+    width: 100%;
+    margin-top: 1.5em;
+}
+
+.profile-info-title span {
+    font-family: inglobal-bold;
+    font-size: 1.5em;
+    padding: 0.5em 0;
+}
+
+.profile-info-txt {
+    font-family: Montserrat-Regular;
+    font-size: 1em;
+    margin-top: 1em;
+}
+
+.profile-info-txt p {
+    padding: 0;
+    margin: 0;
+}
+
+.profile-info-txt span {
+    display: block;
+    font-family: Montserrat-Regular;
+}
+
+.profile-review {
+    margin-bottom: 10px;
+}
+
+
+.modalDialog {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    overflow: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center; /* см. ниже */
+    align-items: center;
+    z-index: 99;
+    /* Чтобы окно не прилипало к границе
+    браузера установим отступы */
+    padding:30px 0;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modalDialog:target {
+    display: block;
+    pointer-events: auto;
+}
+
+.modalDialog > div {
+    position: relative;
+    margin: 10% auto;
+}
+
+.cr-r-info {
+    margin-bottom: 1.5em;
+}
+
+.stat-num {
+    font-family: Montserrat-ExtraBold;
+    font-size: 2em;
+    display: block;
+    text-align: center;
+    padding: 0;
+}
+
+.stat-name {
+    font-family: Montserrat-Regular;
+    font-size: 1em;
+    display: block;
+    text-align: center;
+    padding: 0;
+}
+
+.form-edit-user {
+    font-family:Montserrat-Regular;
+    font-size:0.9em;
+    color:#333;
+    display:block;
+    width:23em;
+    background:#fff;
+    border-radius:1.5em;
+    padding:0.6em 2em 0.6em 2em;
+    border:1px solid rgb(0,0,0,0.2)
+}
+
+.form-edit-label {
+    font-family:Montserrat-Bold;
+    font-size:0.9em;
+    display: flex;
+    justify-content:left;
+    align-items:center;
+    width: 12em;
+    padding: 0 1em 0 0;
+}
+
+.btn-save {
+    margin-top: 3em;
+    border: rgb(0,0,0,0.2);
+    border-radius: 1.5em;
+    padding: 0.5em 2em;
+    color: #fff;
+    background-color:#3E70EA;
+    font-family: Montserrat-Bold;
+    font-size: 1em;
+}
+
+.btn-save:hover {
+   background-color:#4A78E8;
 }
 
 .di_flex {

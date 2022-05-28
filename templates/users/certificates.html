@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load user_filters %}
+{% load static %}
+{% block title %}Сертификаты волонтера{% endblock %}
+{% block content %}
+    <div class="limiter cl-gr">
+        <div class="container-fix">
+            <div class="content-c" id="modalCert">
+                {% for certificate in user.certificates.all %}
+                    <img height="100" width="160" src="{% static certificate.url %}" v-on:click="openModal('{% static certificate.url %}')">
+                {% endfor %}
+                <div class="modalDialog" :key="isModal" v-if="isModal">
+                    <div>
+                        <img height="500" width="800" :src="src" v-on:click="openModal">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script src="{% static 'js/volunteer.js' %}"></script>
+{% endblock %}

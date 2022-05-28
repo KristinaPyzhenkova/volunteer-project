@@ -6,6 +6,7 @@ from .models import Project
 from events.models import Favorites, Event
 from django.contrib.auth.decorators import login_required
 
+
 @login_required
 def ProjectDetail(request, pk):
     project = get_object_or_404(Project, pk=pk)

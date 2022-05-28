@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load user_filters %}
+{% load static %}
+{% block title %}Редактировать профиль{% endblock %}
+{% block content %}
+    <div class="limiter cl-gr">
+        <div class="container-fix">
+            <div class="content-c">
+                <form method="post" enctype="multipart/form-data" {% if action_url %} action="{% url action_url %}" {% endif %}>
+                    {% csrf_token %}
+                    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Aa02b384e9032691afa7a1d8c7b8448c403e937222bec87ab9a51d535978694f6&amp;width=480&amp;height=420&amp;lang=ru_RU&amp;scroll=true"></script>
+                    {% for field in form %}
+                        {% if field.label == 'Аватар'%}
+                            {{field.label}}:{{field}}
+                        {% else %}
+                            <div class="mt-4 d-flex">
+                                <span class="form-edit-label">{{field.label}}:</span> {{field|add_class:'form-edit-user'}}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <button class="btn-save" type="submit">
+                        Сохранить
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

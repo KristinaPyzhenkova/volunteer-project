@@ -15,7 +15,7 @@ class AuthView(LoginView):
 
 class RegistrationView(CreateView):
     form_class = RegistrationUserForm
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('live_index')
 
 
 class PassResetView(PasswordResetView):
@@ -45,7 +45,3 @@ class PassResetView(PasswordResetView):
         self.is_success = True
         form.save(**opts)
         return render(request=self.request, template_name=self.template_name, context=self.get_context_data())
-
-
-class UserDetailView(DetailView):
-    model = User
