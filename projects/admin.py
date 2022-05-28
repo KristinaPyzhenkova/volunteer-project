@@ -14,7 +14,6 @@ class ProjectAdmin(admin.ModelAdmin):
                     'description',
                     'goal',
                     'result',
-                    'slug',
                     'organization'
                     )
     search_fields = ('name', 'status')

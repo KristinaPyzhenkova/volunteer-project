@@ -1,0 +1,30 @@
+{% if user.is_authenticated %}
+  <div class="row my-3">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          href="{% url 'live_index' %}"
+        >
+          Ближайшие мероприятия
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          href="{% url 'events:favorites_index' %}"
+        >
+          Избранные мероприятия
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+           class="nav-link"
+           href="{% url 'events:follow_index' %}"
+        >
+          Принимаю участие
+        </a>
+      </li>
+    </ul>
+  </div>
+{% endif %}

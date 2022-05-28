@@ -1,1 +1,27 @@
-
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Организации{% endblock %}
+{% block content %}
+    <div class="limiter">
+      <div class="container-fix">
+        <h2 class="cl_h2">Организации</h2>
+            <div>
+                <div style="width:100%; height:1px; clear:both;"></div>
+                <ul>
+                {% for organization in organizations %}
+                    <a href="{% url 'organizations:organization_detail' pk=organization.pk %}">
+                    <div class="product-item">
+                            <li>
+                                <img src="{{ organization.avatar_url }}" width="180" height="180"> <br>
+                                <span>{{ organization.full_name }}</span>
+                                <br><span>{{ organization.website }}</span>
+                            </li>
+                     </div>
+                    </a>
+                {% endfor %}
+                </ul>
+                <div style="width:100%; height:1px; clear:both;"></div>
+            </div>
+      </div>
+    </div>
+{% endblock %}

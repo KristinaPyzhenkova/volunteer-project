@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from events.models import Event, Function
+from events.models import Event, Function, Follow, Favorites
 
 
 class EventAdmin(admin.ModelAdmin):
@@ -12,7 +12,6 @@ class EventAdmin(admin.ModelAdmin):
                     'date_start',
                     'date_end',
                     'project',
-                    'slug',
                     'contact_user'
                     )
     search_fields = ('name', 'status')
@@ -26,10 +25,28 @@ class FunctionAdmin(admin.ModelAdmin):
                     'task',
                     'condition',
                     'event',
-                    'slug')
+                    'count')
     search_fields = ('name',)
+    empty_value_display = '-пусто-'
+
+
+class FollowAdmin(admin.ModelAdmin):
+    list_display = ('pk',
+                    'user',
+                    'event')
+    search_fields = ('user',)
+    empty_value_display = '-пусто-'
+
+
+class FavoriteAdmin(admin.ModelAdmin):
+    list_display = ('pk',
+                    'user',
+                    'event')
+    search_fields = ('user',)
     empty_value_display = '-пусто-'
 
 
 admin.site.register(Event, EventAdmin)
 admin.site.register(Function, FunctionAdmin)
+admin.site.register(Follow, FollowAdmin)
+admin.site.register(Favorites, FavoriteAdmin)

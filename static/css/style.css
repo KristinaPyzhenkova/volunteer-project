@@ -1151,12 +1151,15 @@
 }
 
 .index-background {
-    height: 600px;
-    width: 1500px;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    object-fit:cover;
     background: url(/static/img/map.png) repeat-y #F5F5F5;
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: 50% 50%;
     overflow: auto
 }
 
@@ -1167,21 +1170,44 @@
     list-style-type: none;
     backdrop-filter: blur(4px); /* Размываем фон */
     background: rgba(50,50,50,0.9); /* Белый фон с полупрозрачностью */
-    width: 800px; /* Ширина блока */
-    padding: 20px;
+    width: 70%; /* Ширина блока */
+    padding: 10px;
     border-radius: 20px;
-    margin: 2rem auto;
+    margin: auto;
     color: #F5F5F5;
+    display: flex;
 }
 
-.index-list a {
+.index-list_1 {
+    weight: 25%;
+    margin: auto;
+    padding: 20px;
+    text-align: left;
+}
+
+.index-list_2 {
+    weight: 25%;
+    margin: auto;
+    padding: 20px;
+    text-align: left;
+}
+
+.index-list_a {
     color: #F5F5F5;
     font-family: Montserrat-Regular;
     font-weight: bold;
-    float: left;
     font-size: 16px;
     text-align: center;
-    padding: 14px 16px;
+    padding: 7px 8px;
+    text-decoration: none;
+}
+.index-list_a a {
+    color: #F5F5F5;
+    font-family: Montserrat-Regular;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    padding: 7px 8px;
     text-decoration: none;
 }
 
@@ -1213,7 +1239,7 @@
     margin: 0 15px 15px 0;
     text-align:center;
     padding: 10px;
-    float: right;
+    float: left;
     font-family: Montserrat-Regular;
     font-style: italic;
     border-radius: 20px;
@@ -1262,7 +1288,7 @@
    padding: 30px;
    border-radius: 20px;
    border-bottom: 2px solid #F5F5F5;
-   float: right;
+   float: left;
    list-style: none;
 }
 
@@ -1290,8 +1316,6 @@
     text-decoration: none;
 }
 
-
-
 .line_block_detail_1 {
     background:#f1f1f1;
     width:230px;
@@ -1306,7 +1330,6 @@
 
 .line_block_detail_1 p {
     padding: 0px 0px;
-    float: left;
     text-align: center;
     font-family: Montserrat-Regular;
     font-size: 12px;
@@ -1350,10 +1373,10 @@
 
 .line_block_detail_3 {
     background:#f1f1f1;
-    width:40%;
+    width:45%;
     height:180px;
-    margin: 30px 0px 5px;
-    padding: 50px 70px;
+    margin: 30px 15px 5px;
+    padding: 5px 60px;
     border-radius: 20px;
     border-bottom: 2px solid #F5F5F5;
 }
@@ -1426,7 +1449,7 @@
 }
 
 .line_block_detail_project_2 button {
-    background-color: #808080;
+    background-color: linear-gradient(45deg, transparent calc(50% - 1px), rgb(0, 0, 0, 0.2) 50%, transparent calc(50% + 1px) );
     border: none;
     color: white;
     border-radius: 8px;
@@ -1442,8 +1465,7 @@
 
 .table_class table {
     empty-cells: hide;
-    font-size: 14px;
-    background: #808080;
+    background: rgba(250,250,250,0.9);
     width: 95%;
     margin: 20px 40px;
     border-radius: 10px;
@@ -1455,19 +1477,52 @@
 }
 
 .table_class td {
-    width: 20%;
+    font-size: 16px;
+    font-family: Montserrat-Bold;
+    width: 25%;
     font-weight: normal;
     color: black;
     padding: 10px 20px;
-    text-align: center;
+    text-align: left;
 }
 
 .table_class th {
-    width: 80%;
+    font-size: 14px;
+    font-family: Montserrat-Regular;
+    width:70%;
     font-weight: normal;
     color: black;
     padding: 10px 8px;
     text-align: left;
 }
 
+.di_flex {
+    display: flex;
+}
 
+.modal{
+    top:0;
+    left:0;
+    width:100px;
+    height:100px;
+}
+
+.modal .overlay {
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color: #000;
+    opacity: 0.7;
+    z-index: 0;
+}
+
+.modal-window {
+    position:relative;
+    z-index:2;
+    width: 550px;
+    border-radius: 10px;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.4);
+    background-color:#fff;
+}

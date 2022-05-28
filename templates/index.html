@@ -2,23 +2,38 @@
 {% load static %}
 {% block title %}Живи{% endblock %}
 {% block content %}
-<!--    <div class="limiter">-->
-<!--      <div class="container-fix">-->
+    <div class="limiter">
+      <div class="container-fix">
+          {% include 'includes/switcher.html' %}
           <div class="index-background">
-              <h2 class="cl_h2">Ближайшие мероприятия</h2>
-                    <div>
-                        <ul>
-                            {% for event in events %}
-                                <li>
-                                    <div class="index-list">
-                                        <a href="{% url 'events:event_detail' pk=event.pk %}"> {{ event.name }}</a>
-                                        <br> Место проведения: {{ event.status }} <br> {{ event.date_start|date:"d E Y" }} -  {{ event.date_end|date:"d E Y" }}
-                                    </div>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                <div class="index-list_a">
+                    {% for event in events %}
+                        {% if request.user.is_authenticated %}
+                        <a href="{% url 'events:event_detail' pk=event.pk %}">
+                            <div class="index-list">
+                                <div class="index-list_1">
+                                     <span>{{ event.name }}</span>
+                                </div>
+                                <div lass="index-list_2">
+                                    <span> Место проведения: {{ event.status }}</span>
+                                    <br><span> {{ event.date_start|date:"d E Y" }} -  {{ event.date_end|date:"d E Y" }}</span>
+                                </div>
+                            </div>
+                        </a>
+                        {% else %}
+                            <div class="index-list">
+                                <div class="index-list_1">
+                                     <span>{{ event.name }}</span>
+                                </div>
+                                <div lass="index-list_2">
+                                    <span> Место проведения: {{ event.status }}</span>
+                                    <br><span> {{ event.date_start|date:"d E Y" }} -  {{ event.date_end|date:"d E Y" }}</span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
           </div>
-<!--      </div>-->
-<!--    </div>-->
+      </div>
+    </div>
 {% endblock %}
