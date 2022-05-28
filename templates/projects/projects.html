@@ -9,20 +9,20 @@
             <div style="width:100%; height:1px; clear:both;"></div>
             <ul class="zxc">
             {% for project in projects %}
+                <a href="{% url 'projects:project_detail' pk=project.pk %}">
                 <div class="product-item">
-                    <li>
-                        <img src="{{ project.avatar_url }}" width="150" height="150"> <br>
-                        <a href="{% url 'projects:project_detail' pk=project.pk %}"> {{ project.full_name }}</a>
-                        <br> {{ project.website }}
-                    </li>
+                        <li>
+                            <img src="{{ project.avatar_url }}" width="150" height="150"> <br>
+                            <span>{{ project.full_name }}</span>
+                            <br><span>{{ project.website }}</span>
+                        </li>
                  </div>
+                </a>
             {% endfor %}
             </ul>
             <div style="width:100%; height:1px; clear:both;"></div>
         </div>
   </div>
 </div>
-
-
 {% endblock %}
 

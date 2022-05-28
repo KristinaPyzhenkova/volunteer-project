@@ -21,9 +21,6 @@
               <a class="nav-link link-light inglobal-bold" href="{% url 'projects:projects_list' %}">Проекты</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link link-light inglobal-bold" href="">Организаторы</a>
-            </li>
-            <li class="nav-item">
                 <div class="user-menu"><div class="user-menu-container" id="user-menu-container" v-on:click="openMenu">
                       <img width="35" height="35" class="user-avatar" src="{{request.user.avatar.url}}">
                       <span class="user-name">{{ request.user.first_name }}</span>
@@ -32,6 +29,7 @@
                         <ul class="menu-user-ul">
                              <li><a class="menu-user-a menu-user-a-profile" href="{% url 'users:volunteer_detail' pk=request.user.pk %}">Профиль</a></li>
                              <li><a class="menu-user-a" href="">Статистика</a></li>
+                             <li><a class="menu-user-a" href="{% url 'events:event_create' %}">Создать мероприятие</a></li>
                              <li><a class="menu-user-a menu-user-a-exit" href="{% url 'auth_users:logout' %}">Выйти</a></li>
                         </ul>
                     </div>

@@ -19,28 +19,47 @@
                              <li>
                                  <img src="/static/img/world.png" width="30" height="30"> Охват проекта: {{ project.status }}
                              </li>
-                            <li>
-                                <form>
-                                    <button>Присоединиться к проекту</button>
-                                </form>
-                            </li>
                          </ul>
+                        {% if favorites == 'part' %}
+                            <a href="{% url 'projects:profile_favorite_part' pk=project.pk %}">
+                                  <button>Следить за всеми мероприятиями</button>
+                            </a>
+                        {% elif favorites %}
+                            <a href="{% url 'projects:profile_unfavorite' pk=project.pk %}">
+                                  <button>Убрать из избранного</button>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'projects:profile_favorite' pk=project.pk %}">
+                                  <button>Добавить в избранный</button>
+                            </a>
+                        {% endif %}
                     </div>
               </div>
               <div class="table_class">
                   <table>
                       <tr>
-                          <td>Цель проекта</td>
-                          <th><img src="/static/img/goal.png" width="25" height="25">{{ project.goal }}</th>
+                          <td><img src="/static/img/goal.png" width="25" height="25">Цель проекта: </td>
+                          <th>{{ project.goal }}</th>
                       </tr>
                       <tr>
-                          <td>Результат проекта</td>
-                          <th><img src="/static/img/result.png" width="25" height="25">{{ project.result }}</th>
+                          <td><img src="/static/img/result.png" width="25" height="25">Результат проекта: </td>
+                          <th>{{ project.result }}</th>
                       </tr>
                   </table>
               </div>
+              <div>
+                  <h2 class="cl_h2">Mероприятия проекта</h2>
+                     <ul>
+                         {% for event_project in events_project %}
+                         <li>
+                             <a href="{% url 'events:event_detail' pk=event_project.pk %}">
+                             <span>{{ event_project.name }}</span>
+                             </a>
+                         </li>
+                         {% endfor %}
+                     </ul>
+              </div>
           </div>
-
             <div style="width:100%; height:1px; clear:both;"></div>
       </div>
 </div>

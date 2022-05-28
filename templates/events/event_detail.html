@@ -4,19 +4,27 @@
 {% block content %}
 <div class="limiter">
       <div class="container-fix">
-            <div>
-
-            </div>
-
             <h2 class="cl_h2">{{ event.name }}</h2>
             <div style="width:100%; height:1px; clear:both;"></div>
             <div style="display: flex">
                   <div class="line_block_detail_1">
                         <img src="{{ event.avatar_url }}" width="120" height="120">
-                        <p>18 волонтеров подали заявку на текущее мероприятие</p>
-                        <form>
-                              <button>Присоединиться</button>
-                        </form>
+                        <p><span >{{ user_count }}</span> волонтеров подали заявку на текущее мероприятие</p>
+                        {% if request.user != event.contact_user %}
+                              {% if following %}
+                                    <a href="{% url 'events:profile_unfollow' pk=event.pk %}">
+                                          <button>Отсоединиться</button>
+                                    </a>
+                              {% else %}
+                                    <a href="{% url 'events:profile_follow' pk=event.pk %}">
+                                          <button>Присоединиться</button>
+                                    </a>
+                              {% endif %}
+                        {% else %}
+                              <a href="{% url 'events:event_edit' pk=event.pk %}">
+                                    <button>Отредактировать</button>
+                              </a>
+                        {% endif %}
                   </div>
                   <div>
                         <div style="display: flex">
@@ -24,10 +32,12 @@
                                     <ul>
                                           <h3 style="font-family: Montserrat-Regular;font-size: 18px; font-weight: bold;">Основная информация:</h3>
                                           <li>
-                                               <p><img src="/static/img/organ.png" width="30" height="35"> Организация</p>
+                                               <a href="{% url 'projects:project_detail' pk=event.project.pk %}"><img src="/static/img/organ.png" width="30" height="35"> {{ event.project }}</a>
                                           </li>
                                           <li>
                                                <p><img src="/static/img/geo.png" width="30" height="30"> {{ event.status }}</p>
+                                          </li>
+
                                           </li>
                                           <li>
                                                 <p><img src="/static/img/date.png" width="25" height="25"> {{ event.date_start }} - {{ event.date_end }}</p>
@@ -36,10 +46,19 @@
                               </div>
                               <div class="line_block_detail_3">
                                     <ul>
-                                          <h3 style="font-family: Montserrat-Regular;font-size: 18px;font-weight: bold;">Контанктное лицо:</h3>
                                           <li>
-                                               <p><img src="/static/img/mail.png" width="30" height="30"> 123@mail.ru</p>
+                                               <p><img src="/static/img/mail.png" width="30" height="30">{{ event.contact_user.email }}</p>
                                           </li>
+                                          {% if favorites %}
+                                                <a href="{% url 'events:profile_unfavorite' pk=event.pk %}">
+                                                      <button>Убрать из избранного</button>
+                                                </a>
+                                          {% else %}
+
+                                                <a href="{% url 'events:profile_favorite' pk=event.pk %}">
+                                                      <button>Избранный</button>
+                                                </a>
+                                          {% endif %}
                                     </ul>
                               </div>
                         </div>
@@ -47,6 +66,37 @@
                               <h3 style="font-family: Montserrat-Regular;font-size: 18px;font-weight: bold;">Описание</h3>
                               <p>{{ event.description }}</p>
                         </div>
+                        <div>
+                              <h2 class="cl_h2">Функции</h2>
+                              <ul>
+                                    {% for function in functions %}
+                                    <li>
+                                          <p>{{ function.name }}</p>
+                                          <p>{{ function.description }}</p>
+                                          <p>{{ function.task }}</p>
+                                          <p>{{ function.condition }}</p>
+                                          <p>{{ function.event }}</p>
+                                          <span>Нужное кол-во волонтеров: {{ function.count }}</span>
+                                          <br><span>Кол-во откликнулось: {{ function.following.count }}</span>
+                                    </li>
+                                    {% endfor %}
+                              </ul>
+                        </div>
+                        <div>
+                              {% if request.user == event.contact_user %}
+                                    <h2>Откликнувшиеся волонтеры:</h2>
+                              {% for user_following in users_following %}
+                              <ul>
+                                    <li>
+                                          <span>{{ user_following.user.first_name }} {{ user_following.user.last_name }}
+                                                - {{ user_following.function }}</span>
+                                          <br><span>Номер телефона: {{ user_following.user.phone }}</span>
+                                    </li>
+                              </ul>
+                              {% endfor %}
+                        </div>
+
+                        {% endif%}
                   </div>
             </div>
             <div style="width:100%; height:1px; clear:both;"></div>

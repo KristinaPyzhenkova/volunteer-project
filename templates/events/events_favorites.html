@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Мероприятия{% endblock %}
+{% block content %}
+<div class="limiter">
+      <div class="container-fix">
+          {% include 'includes/switcher.html' %}
+            <div style="width:100%; height:1px; clear:both;"></div>
+                <div class="line_block">
+                    <ul>
+                        {% for favorite in favorites %}
+                            <a href="{% url 'events:event_detail' pk=favorite.event.pk %}">
+                                <li>
+                                    <img src="{{ favorite.event.avatar_url }}" width="120" height="120"> <br>
+                                    <span>{{ favorite.event.name }}</span>
+                                    <br><span>{{ favorite.function.name }}</span>
+                                    <br><span>{{ favorite.event.date_start|date:"d E Y" }} -  {{ favorite.event.date_end|date:"d E Y" }}</span>
+                                </li>
+                            </a>
+                        {% endfor %}
+                    </ul>
+                </div>
+            <div style="width:100%; height:1px; clear:both;"></div>
+      </div>
+</div>
+{% endblock %}
+

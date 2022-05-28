@@ -103,6 +103,11 @@ class Function(models.Model):
         auto_now=True,
         verbose_name='Дата изменения'
     )
+    count = models.IntegerField(
+        default=0,
+        verbose_name='Нужное кол-во волонтеров'
+    )
+
 
     class Meta:
         verbose_name = 'Функции'
@@ -120,3 +125,39 @@ class UserEvent(models.Model):
 class UserFunction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     function = models.ForeignKey(Function, on_delete=models.CASCADE)
+
+
+class Follow(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='follower',
+        verbose_name='подписчик',
+        help_text='ссылка на объект пользователя, который подписывается',
+    )
+    event = models.ForeignKey(
+        Event,
+        on_delete=models.CASCADE,
+        related_name='following',
+    )
+    function = models.ForeignKey(
+        Function,
+        on_delete=models.CASCADE,
+        related_name='following',
+    )
+
+class Favorites(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='favorites',
+        verbose_name='подписчик',
+        help_text='ссылка на объект пользователя, который подписывается',
+    )
+    event = models.ForeignKey(
+        Event,
+        on_delete=models.CASCADE,
+        related_name='favorites',
+        help_text='событие',
+    )
+
