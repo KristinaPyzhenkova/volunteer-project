@@ -45,11 +45,6 @@ class Event(models.Model):
         blank=True,
         verbose_name='Проект'
     )
-    client = models.ManyToManyField(
-        User,
-        related_name='events_many',
-        through='UserEvent',
-    )
     created = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Дата создания'
@@ -57,6 +52,14 @@ class Event(models.Model):
     updated = models.DateTimeField(
         auto_now=True,
         verbose_name='Дата изменения'
+    )
+    coordinates_latitude = models.FloatField(
+        null=True,
+        verbose_name='Координаты (широта)'
+    )
+    coordinates_longitude = models.FloatField(
+        null=True,
+        verbose_name='Координаты (долгота)'
     )
 
     class Meta:
@@ -145,6 +148,7 @@ class Follow(models.Model):
         on_delete=models.CASCADE,
         related_name='following',
     )
+
 
 class Favorites(models.Model):
     user = models.ForeignKey(

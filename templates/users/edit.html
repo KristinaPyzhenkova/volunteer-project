@@ -8,7 +8,6 @@
             <div class="content-c">
                 <form method="post" enctype="multipart/form-data" {% if action_url %} action="{% url action_url %}" {% endif %}>
                     {% csrf_token %}
-                    <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Aa02b384e9032691afa7a1d8c7b8448c403e937222bec87ab9a51d535978694f6&amp;width=480&amp;height=420&amp;lang=ru_RU&amp;scroll=true"></script>
                     {% for field in form %}
                         {% if field.label == 'Аватар'%}
                             {{field.label}}:{{field}}
@@ -26,4 +25,3 @@
         </div>
     </div>
 {% endblock %}
-
