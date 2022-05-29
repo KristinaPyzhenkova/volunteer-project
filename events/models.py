@@ -1,10 +1,19 @@
 from django.db import models
+import os
 
 from projects.models import Project
 from users.models import User
+from live import settings
 
 
 class Event(models.Model):
+    def event_avatar_path(instance, filename):
+        ext = filename.split('.')[-1]
+        fullname = f'events/avatars/{instance.pk}.{ext}'
+        if os.path.exists(os.path.join(settings.MEDIA_ROOT, fullname)):
+            os.remove(os.path.join(settings.MEDIA_ROOT, fullname))
+        return f'events/avatars/{instance.pk}.{ext}'
+
     name = models.CharField(
         max_length=100,
         db_index=True,
@@ -12,12 +21,11 @@ class Event(models.Model):
     )
     status = models.CharField(
         max_length=256,
-        verbose_name='Статус мероприятия'
+        verbose_name='Местоположение'
     )
-    avatar_url = models.CharField(
-        max_length=256,
-        verbose_name='Аватар URL',
-        blank=True
+    avatar_url = models.ImageField(
+        upload_to=event_avatar_path,
+        verbose_name='Аватар мероприятия'
     )
     description = models.TextField(
         verbose_name='Описание события',
@@ -32,23 +40,15 @@ class Event(models.Model):
     contact_user = models.ForeignKey(
         User,
         related_name='events',
-        on_delete=models.SET_NULL,
-        null=True,
-        verbose_name='Контактное лицо',
-        blank=True
+        on_delete=models.CASCADE,
+        verbose_name='Контактное лицо'
     )
     project = models.ForeignKey(
         Project,
         related_name='events',
         on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        verbose_name='Проект'
-    )
-    client = models.ManyToManyField(
-        User,
-        related_name='events_many',
-        through='UserEvent',
+        verbose_name='Проект',
+        null=True
     )
     created = models.DateTimeField(
         auto_now_add=True,
@@ -89,11 +89,6 @@ class Function(models.Model):
         null=True,
         blank=True,
         verbose_name='Событие'
-    )
-    client = models.ManyToManyField(
-        User,
-        related_name='functions_many',
-        through='UserFunction',
     )
     created = models.DateTimeField(
         auto_now_add=True,

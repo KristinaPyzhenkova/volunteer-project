@@ -1,74 +1,43 @@
 from django.db import models
+import os
 
-from organizations.models import Organization
 from users.models import User
+from live import settings
 
 
 class Project(models.Model):
+    def project_avatar_path(instance, filename):
+        ext = filename.split('.')[-1]
+        fullname = f'projects/avatars/{instance.pk}.{ext}'
+        if os.path.exists(os.path.join(settings.MEDIA_ROOT, fullname)):
+            os.remove(os.path.join(settings.MEDIA_ROOT, fullname))
+        return f'projects/avatars/{instance.pk}.{ext}'
+
     name = models.CharField(
-        max_length=256,
+        max_length=20,
         verbose_name='Наименование',
-        # для ускоренной сортировки
         db_index=True
     )
-    full_name = models.CharField(
-        max_length=256,
-        verbose_name='Полное наименование',
-        db_index=True
-    )
-    website = models.CharField(
-        max_length=256,
-        verbose_name='Сайт Проекта',
-        db_index=True
-    )
-    material_url = models.CharField(
-        max_length=256,
-        verbose_name='Материал',
-        blank=True
-    )
-    avatar_url = models.CharField(
-        max_length=256,
-        verbose_name='Аватар URL',
-        blank=True
-    )
-    status = models.CharField(
-        max_length=256,
-        verbose_name='Статус проекта',
-        blank=True
+    avatar_url = models.ImageField(
+        upload_to=project_avatar_path,
+        verbose_name='Аватар'
     )
     description = models.TextField(
         verbose_name='Описание',
-        blank=True
+        blank=True,
+        null=True
     )
     goal = models.TextField(
         verbose_name='Цели',
-        blank=True
+        blank=True,
+        null=True
     )
     result = models.TextField(
         verbose_name='Результаты',
-        blank=True
-    )
-    organization = models.ForeignKey(
-        Organization,
-        related_name='projects',
-        on_delete=models.SET_NULL,
-        null=True,
         blank=True,
-        verbose_name='Организация'
+        null=True
     )
-    client = models.ManyToManyField(
-        User,
-        related_name='projects_many',
-        through='UserProject',
-    )
-    created = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Дата создания'
-    )
-    updated = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Дата изменения'
-    )
+
 
     class Meta:
         verbose_name = 'Проекты'

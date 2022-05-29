@@ -11,13 +11,10 @@
                         <p><img src="{{ project.avatar_url }}" width="180" height="180"></p>
                     </div>
                     <div class="line_block_detail_project_2">
-                            <h2 class="cl_h2">{{ project.full_name }}</h2>
+                            <h2 class="cl_h2">{{ project.name }}</h2>
                          <ul>
                              <li>
-                                 <img src="/static/img/web.png" width="30" height="30"> {{ project.website }}
-                             </li>
-                             <li>
-                                 <img src="/static/img/world.png" width="30" height="30"> Охват проекта: {{ project.status }}
+                                 <img src="/static/img/world.png" width="30" height="30"> {{ project.description }}
                              </li>
                          </ul>
                         {% if favorites == 'part' %}
