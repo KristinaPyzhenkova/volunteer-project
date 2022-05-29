@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Форма{% endblock %}
+{% block content %}
+    <div class="limiter">
+        <div class="container-fix">
+            <form method="post">
+                {% csrf_token %}
+                  {% for field in form %}
+                    <div>
+                        <label>
+                            {{ field.label }}
+                            {{ field }}
+                            <hr>
+                        </label>
+                      {% if field.help_text %}
+                        <small id="{{ field.id_for_label }}-help">
+                          {{ field.help_text|safe }}
+                        </small>
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+                  <div>
+                    <button type="submit">
+                        Сохранить
+                    </button>
+                  </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

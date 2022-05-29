@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Мероприятия{% endblock %}
+{% block content %}
+<div class="limiter">
+      <div class="container-fix">
+          {% include 'includes/switcher.html' %}
+            <div style="width:100%; height:1px; clear:both;"></div>
+                <div class="line_block">
+                    <ul>
+                        {% for own in owns %}
+                            <a href="{% url 'events:event_detail' pk=own.pk %}">
+                                <li>
+                                    <img src="{{ own.avatar_url }}" width="120" height="120"> <br>
+                                    <span>{{ own.name }}</span>
+                                    <br><span>{{ own.function.name }}</span>
+                                    <br><span>{{ own.date_start|date:"d E Y" }} -  {{ own.date_end|date:"d E Y" }}</span>
+                                </li>
+                            </a>
+                        {% endfor %}
+                    </ul>
+                </div>
+            <div style="width:100%; height:1px; clear:both;"></div>
+      </div>
+</div>
+{% endblock %}
+

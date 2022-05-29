@@ -6,17 +6,12 @@ from projects.models import Project
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ('pk',
                     'name',
-                    'full_name',
-                    'website',
-                    'material_url',
                     'avatar_url',
-                    'status',
                     'description',
                     'goal',
                     'result',
-                    'organization'
                     )
-    search_fields = ('name', 'status')
+    search_fields = ('name',)
     empty_value_display = '-пусто-'
 
 

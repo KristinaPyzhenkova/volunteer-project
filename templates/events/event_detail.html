@@ -16,9 +16,13 @@
                                           <button>Отсоединиться</button>
                                     </a>
                               {% else %}
-                                    <a href="{% url 'events:profile_follow' pk=event.pk %}">
-                                          <button>Присоединиться</button>
-                                    </a>
+                                    {% if count_remainder %}
+                                          <a href="{% url 'events:profile_follow' pk=event.pk %}">
+                                                <button>Присоединиться</button>
+                                          </a>
+                                    {% else %}
+                                          <button>Волонтеры наброны</button>
+                                    {% endif %}
                               {% endif %}
                         {% else %}
                               <a href="{% url 'events:event_edit' pk=event.pk %}">
@@ -67,36 +71,49 @@
                               <p>{{ event.description }}</p>
                         </div>
                         <div>
-                              <h2 class="cl_h2">Функции</h2>
-                              <ul>
-                                    {% for function in functions %}
-                                    <li>
-                                          <p>{{ function.name }}</p>
-                                          <p>{{ function.description }}</p>
-                                          <p>{{ function.task }}</p>
-                                          <p>{{ function.condition }}</p>
-                                          <p>{{ function.event }}</p>
-                                          <span>Нужное кол-во волонтеров: {{ function.count }}</span>
-                                          <br><span>Кол-во откликнулось: {{ function.following.count }}</span>
-                                    </li>
-                                    {% endfor %}
-                              </ul>
+                              {% if request.user == event.contact_user %}
+                                    <a href="{% url 'events:function_create' pk=event.pk %}">
+                                          <button>Создать функции</button>
+                                    </a>
+                              {% endif%}
+                              {% if len_functions > 0 %}
+                                    <h2 class="cl_h2">Функции</h2>
+                                    <ul>
+                                          {% for function in functions %}
+                                          <li>
+                                                <p>{{ function.name }}</p>
+                                                <p>{{ function.description }}</p>
+                                                <p>{{ function.task }}</p>
+                                                <p>{{ function.condition }}</p>
+                                                <p>{{ function.event }}</p>
+                                                {% if request.user == event.contact_user %}
+                                                      <a href="{% url 'events:function_edit' pk=function.pk %}">
+                                                            <button>Редактировать</button>
+                                                      </a>
+                                                {% endif%}
+                                                <span>Нужное кол-во волонтеров: {{ function.count }}</span>
+                                                <br><span>Кол-во откликнулось: {{ function.following.count }}</span>
+                                          </li>
+                                          {% endfor %}
+                                    </ul>
+                              {% endif%}
                         </div>
                         <div>
                               {% if request.user == event.contact_user %}
-                                    <h2>Откликнувшиеся волонтеры:</h2>
-                              {% for user_following in users_following %}
-                              <ul>
-                                    <li>
-                                          <span>{{ user_following.user.first_name }} {{ user_following.user.last_name }}
-                                                - {{ user_following.function }}</span>
-                                          <br><span>Номер телефона: {{ user_following.user.phone }}</span>
-                                    </li>
-                              </ul>
-                              {% endfor %}
+                                    {% if user_count > 0 %}
+                                          <h2>Откликнувшиеся волонтеры:</h2>
+                                          {% for user_following in users_following %}
+                                          <ul>
+                                                <li>
+                                                      <span>{{ user_following.user.first_name }} {{ user_following.user.last_name }}
+                                                            - {{ user_following.function }}</span>
+                                                      <br><span>Номер телефона: {{ user_following.user.phone }}</span>
+                                                </li>
+                                          </ul>
+                                          {% endfor %}
+                                    {% endif%}
+                              {% endif%}
                         </div>
-
-                        {% endif%}
                   </div>
             </div>
             <div style="width:100%; height:1px; clear:both;"></div>

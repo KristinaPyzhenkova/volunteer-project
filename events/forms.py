@@ -1,6 +1,7 @@
-from django.forms import ModelForm, DateField
-
+from django.forms import ModelForm, DateField, modelformset_factory
+from django import forms
 from .models import Follow, Function, Event
+
 
 
 class EventForm(ModelForm):
@@ -21,15 +22,24 @@ class EventForm(ModelForm):
         self.fields['function'].queryset = qs
 
 
-class EventFormCreate(ModelForm):
-    date_start = DateField()
-    date_end = DateField()
+class DateTimeInputWidget(forms.DateTimeInput):
+    input_type = 'datetime'
 
+    def format_value(self, value):
+        return value
+
+class EventFormCreate(ModelForm):
     class Meta:
         model = Event
-        fields = '__all__'
-        labels = {
-            'name': 'Наименование',
-            'status': 'Местоположение',
-            'project': 'Проект'
+        fields = ('name','status','avatar_url','description','date_start','date_end','project')
+        widgets = {
+            'date_start': DateTimeInputWidget(attrs={'type': 'datetime'}),
+            'date_end': DateTimeInputWidget(attrs={'type': 'datetime'})
         }
+
+
+class FunctionFormCreate(ModelForm):
+    class Meta:
+        model = Function
+        fields = ('name','description','task','condition','count')
+
