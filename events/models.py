@@ -47,8 +47,9 @@ class Event(models.Model):
         Project,
         related_name='events',
         on_delete=models.SET_NULL,
-        verbose_name='Проект',
-        null=True
+        null=True,
+        blank=True,
+        verbose_name='Проект'
     )
     created = models.DateTimeField(
         auto_now_add=True,
@@ -57,6 +58,14 @@ class Event(models.Model):
     updated = models.DateTimeField(
         auto_now=True,
         verbose_name='Дата изменения'
+    )
+    coordinates_latitude = models.FloatField(
+        null=True,
+        verbose_name='Координаты (широта)'
+    )
+    coordinates_longitude = models.FloatField(
+        null=True,
+        verbose_name='Координаты (долгота)'
     )
 
     class Meta:
@@ -140,6 +149,7 @@ class Follow(models.Model):
         on_delete=models.CASCADE,
         related_name='following',
     )
+
 
 class Favorites(models.Model):
     user = models.ForeignKey(

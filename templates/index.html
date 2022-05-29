@@ -4,6 +4,7 @@
 {% block content %}
     <div class="limiter">
       <div class="container-fix">
+          <div id="map" style="width: 100%; height: 600px" :onchange="loadMap({{events_json}})"></div>
           {% include 'includes/switcher.html' %}
           <div class="index-background">
                 <div class="index-list_a">
@@ -36,4 +37,7 @@
           </div>
      </div>
     </div>
+{% endblock %}
+{% block js %}
+    <script src="{% static 'js/yandex_map.js' %}"></script>
 {% endblock %}
