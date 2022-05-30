@@ -15,14 +15,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='event',
-            name='client',
-        ),
-        migrations.RemoveField(
-            model_name='function',
-            name='client',
-        ),
         migrations.AlterField(
             model_name='event',
             name='avatar_url',
