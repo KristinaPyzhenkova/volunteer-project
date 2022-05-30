@@ -67,6 +67,12 @@ class Event(models.Model):
         null=True,
         verbose_name='Координаты (долгота)'
     )
+    address = models.CharField(
+        max_length=256,
+        db_index=True,
+        null=True,
+        verbose_name='Адрес'
+    )
 
     class Meta:
         verbose_name = 'Мероприятия'
