@@ -12,7 +12,7 @@
                 <a href="{% url 'projects:project_detail' pk=project.pk %}">
                 <div class="product-item">
                         <li>
-                            <img src="{{ project.avatar_url }}" width="150" height="150"> <br>
+                            <img src="{{ project.avatar_url.url }}" width="150" height="150"> <br>
                             <span>{{ project.name }}</span>
                         </li>
                  </div>

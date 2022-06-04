@@ -1,14 +1,14 @@
 {% extends "base.html" %}
+{% load user_filters %}
 {% load static %}
 {% block title %}Живи{% endblock %}
 {% block content %}
 <div class="limiter">
       <div class="container-fix">
             <h2 class="cl_h2">{{ event.name }}</h2>
-            <div style="width:100%; height:1px; clear:both;"></div>
             <div style="display: flex">
                   <div class="line_block_detail_1">
-                        <img src="{{ event.avatar_url }}" width="120" height="120">
+                        <img src="{{ event.avatar_url.url }}" width="120" height="120">
                         <p><span >{{ user_count }}</span> волонтеров подали заявку на текущее мероприятие</p>
                         {% if request.user != event.contact_user %}
                               {% if following %}
@@ -70,7 +70,7 @@
                               <h3 style="font-family: Montserrat-Regular;font-size: 18px;font-weight: bold;">Описание</h3>
                               <p>{{ event.description }}</p>
                         </div>
-                        <div>
+                        <div class="line_block_detail_main_5">
                               {% if request.user == event.contact_user %}
                                     <a href="{% url 'events:function_create' pk=event.pk %}">
                                           <button>Создать функции</button>
@@ -78,45 +78,66 @@
                               {% endif%}
                               {% if len_functions > 0 %}
                                     <h2 class="cl_h2">Функции</h2>
-                                    <ul>
-                                          {% for function in functions %}
-                                          <li>
-                                                <p>{{ function.name }}</p>
-                                                <p>{{ function.description }}</p>
-                                                <p>{{ function.task }}</p>
-                                                <p>{{ function.condition }}</p>
-                                                <p>{{ function.event }}</p>
-                                                {% if request.user == event.contact_user %}
+                                          <ul>
+                                                {% for function in functions %}
+                                                <div class="line_block_detail_5">
+                                                      <li>
+                                                            <p>{{ function.name }}</p>
+                                                            <p>{{ function.description }}</p>
+                                                            <p>{{ function.task }}</p>
+                                                            <p>{{ function.condition }}</p>
+                                                            <p>Нужное кол-во волонтеров: {{ function.count }}</p>
+                                                            <p>Кол-во откликнулось: {{ function.following.count }}</p>
+                                                      </li>
+                                                      {% if request.user != event.contact_user %}
+                                                            {% if function.pk in following_func %}
+                                                                  <a href="{% url 'events:profile_unfollow_func' pk_event=event.pk pk_funk=function.pk %}">
+                                                                        <button>Отсоединиться от функции</button>
+                                                                  </a>
+                                                            {% else %}
+                                                                  {% if following %}
+                                                                              <button>Ты присоединился к другой функции</button>
+                                                                  {% else%}
+                                                                        {% if count_u_func|get_item:function.pk < function.count %}
+                                                                              <a href="{% url 'events:profile_follow_func' pk_event=event.pk pk_funk=function.pk %}">
+                                                                                    <button>Присоединиться к функции</button>
+                                                                              </a>
+                                                                        {% else %}
+                                                                              <button>Волонтеры наброны</button>
+                                                                        {% endif %}
+                                                                  {% endif %}
+                                                            {% endif %}
+                                                      {% endif %}
+                                                </div>
+                                                <p>{% if request.user == event.contact_user %}
                                                       <a href="{% url 'events:function_edit' pk=function.pk %}">
                                                             <button>Редактировать</button>
                                                       </a>
-                                                {% endif%}
-                                                <span>Нужное кол-во волонтеров: {{ function.count }}</span>
-                                                <br><span>Кол-во откликнулось: {{ function.following.count }}</span>
-                                          </li>
-                                          {% endfor %}
-                                    </ul>
+                                                {% endif%}</p>
+                                                {% endfor %}
+                                          </ul>
                               {% endif%}
                         </div>
-                        <div>
+                        <div class="line_block_detail_main_5">
                               {% if request.user == event.contact_user %}
                                     {% if user_count > 0 %}
                                           <h2>Откликнувшиеся волонтеры:</h2>
                                           {% for user_following in users_following %}
-                                          <ul>
-                                                <li>
-                                                      <span>{{ user_following.user.first_name }} {{ user_following.user.last_name }}
-                                                            - {{ user_following.function }}</span>
-                                                      <br><span>Номер телефона: {{ user_following.user.phone }}</span>
-                                                </li>
-                                          </ul>
+                                                <div class="line_block_detail_5">
+                                                      <ul>
+                                                            <li>
+                                                                  <span>{{ user_following.user.first_name }} {{ user_following.user.last_name }}
+                                                                        - {{ user_following.function }}</span>
+                                                                  <br><span>Номер телефона: {{ user_following.user.phone }}</span>
+                                                            </li>
+                                                      </ul>
+                                                </div>
                                           {% endfor %}
-                                    {% endif%}
-                              {% endif%}
+                                    {% endif %}
+                              {% endif %}
                         </div>
                   </div>
             </div>
-            <div style="width:100%; height:1px; clear:both;"></div>
       </div>
 </div>
 {% endblock %}

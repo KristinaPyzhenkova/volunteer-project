@@ -1,31 +1,31 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Форма{% endblock %}
+{% block title %}Создать функцию{% endblock %}
 {% block content %}
-    <div class="limiter">
+    <div class="limiter cl-gr">
         <div class="container-fix">
-            <form method="post">
-                {% csrf_token %}
-                  {% for field in form %}
-                    <div>
-                        <label>
-                            {{ field.label }}
-                            {{ field }}
-                            <hr>
-                        </label>
-                      {% if field.help_text %}
-                        <small id="{{ field.id_for_label }}-help">
-                          {{ field.help_text|safe }}
-                        </small>
-                      {% endif %}
-                    </div>
-                  {% endfor %}
-                  <div>
-                    <button type="submit">
-                        Сохранить
-                    </button>
-                  </div>
-            </form>
+            <div class="content-c">
+                <div class="form-edit-label">
+                    <form method="post" enctype="multipart/form-data" {% if action_url %} action="{% url action_url %}" {% endif %}>
+                        {% csrf_token %}
+                          {% for field in form %}
+                                <label>
+                                    {{ field.label }}
+                                    {{ field }}
+                                    <hr>
+                                </label>
+                              {% if field.help_text %}
+                                <small id="{{ field.id_for_label }}-help">
+                                  {{ field.help_text|safe }}
+                                </small>
+                              {% endif %}
+                          {% endfor %}
+                            <button class="btn-save" type="submit">
+                                Сохранить
+                            </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
