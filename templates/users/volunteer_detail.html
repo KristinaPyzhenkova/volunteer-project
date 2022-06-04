@@ -22,7 +22,11 @@
                             <span>Личная информация</span>
                         </div>
                         <div class="profile-info-txt">
-                            {{user.info|safe}}
+                            {% if user.info %}
+                                {{user.info|safe}}
+                            {% else %}
+                                <span class="txt-empty">Личная информация отсутствует.</span>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="profile-info">
@@ -30,9 +34,13 @@
                             <span>Направления</span>
                         </div>
                         <div class="profile-info-txt">
-                            {% for direction in user.direction.all %}
-                                <span>{{direction.name}}</span>
-                            {% endfor %}
+                            {% if user.direction.all %}
+                                {% for direction in user.direction.all %}
+                                    <span>{{direction.name}}</span>
+                                {% endfor %}
+                            {% else %}
+                                <span class="txt-empty">Направления отсутствуют.</span>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="profile-info">
@@ -40,12 +48,18 @@
                             <span>Мероприятия</span>
                         </div>
                         <div class="profile-info-txt">
-                            {% for event in user.events_many.all %}
-                                <a href="{% url 'events:event_detail' pk=event.pk %}">{{event.name}}</a><br>
-                                {{event.status}}<br>
-                                {{event.date_start}} - {{event.date_end}}<br>
-                            {% endfor %}
-                            <a href="{% url 'users:events' pk=user.pk %}">Смотреть все</a><br>
+                            {% if user.events_many.all %}
+                                {% for event in user.events_many.all %}
+                                    <a href="{% url 'events:event_detail' pk=event.pk %}">{{event.name}}</a><br>
+                                    {{event.status}}<br>
+                                    {{event.date_start}} - {{event.date_end}}<br>
+                                {% endfor %}
+                                {% if user.events_many.count > 3 %}
+                                    <a href="{% url 'users:events' pk=user.pk %}">Смотреть все</a>
+                                {% endif %}
+                            {% else %}
+                                <span class="txt-empty">Мероприятия отсутствуют.</span>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="profile-info">
@@ -53,15 +67,21 @@
                             <span>Отзывы</span>
                         </div>
                         <div class="profile-info-txt">
-                            {% for review in user.reviews_user.all %}
-                                <div class="profile-review">
-                                    <a href="{% url 'projects:project_detail' pk=review.organization.pk %}">{{review.organization.name}}</a><br>
-                                    <a href="{% url 'events:event_detail' pk=review.event.pk %}">{{review.event.name}}</a><br>
-                                    {{review.rating}}<br>
-                                    {{review.review}}<br><br>
-                                </div>
-                            {% endfor %}
-                            <a href="{% url 'users:reviews' pk=user.pk %}">Смотреть все</a><br>
+                            {% if user.reviews_user.all %}
+                                {% for review in user.reviews_user.all %}
+                                    <div class="profile-review">
+                                        <a href="{% url 'projects:project_detail' pk=review.organization.pk %}">{{review.organization.name}}</a><br>
+                                        <a href="{% url 'events:event_detail' pk=review.event.pk %}">{{review.event.name}}</a><br>
+                                        {{review.rating}}<br>
+                                        {{review.review}}<br><br>
+                                    </div>
+                                {% endfor %}
+                                {% if user.reviews_user.count > 5 %}
+                                    <a href="{% url 'users:reviews' pk=user.pk %}">Смотреть все</a>
+                                {% endif %}
+                            {% else %}
+                                <span class="txt-empty">Отзывы отсутствуют.</span>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -81,35 +101,43 @@
                         <span>Рейтинг</span>
                     </div>
                     <div class="cr-r-info">
-                        <div class="cr-r-stars">
-                            <span>{{rating}}</span>
-                            {% for x in 5|times%}
-                                {% if x|rating_counter:rating > 100 %}
-                                    <i class="fa-solid fa-star star-s" style="background-image: linear-gradient(90deg, #ffe700 100%, #C7C7C7 0%);"></i>
-                                {% elif x|rating_counter:rating > 0 %}
-                                    <i class="fa-solid fa-star star-s" style="background-image: linear-gradient(90deg, #ffe700 {{x|rating_counter:rating}}%, #C7C7C7 0%);"></i>
-                                {% else %}
-                                    <i class="fa-solid fa-star star-s" style="background-image: linear-gradient(90deg, #ffe700 0%, #C7C7C7 100%);"></i>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
+                        {% if rating %}
+                            <div class="cr-r-stars">
+                                <span>{{rating}}</span>
+                                {% for x in 5|times%}
+                                    {% if x|rating_counter:rating > 100 %}
+                                        <i class="fa-solid fa-star star-s" style="background-image: linear-gradient(90deg, #ffe700 100%, #C7C7C7 0%);"></i>
+                                    {% elif x|rating_counter:rating > 0 %}
+                                        <i class="fa-solid fa-star star-s" style="background-image: linear-gradient(90deg, #ffe700 {{x|rating_counter:rating}}%, #C7C7C7 0%);"></i>
+                                    {% else %}
+                                        <i class="fa-solid fa-star star-s" style="background-image: linear-gradient(90deg, #ffe700 0%, #C7C7C7 100%);"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="empty-container"><span class="txt-empty">Рейтинг отсутствует.</span></div>
+                        {% endif %}
                     </div>
                     <div class="cr-r-title">
                         <i class="fa-solid fa-certificate"></i>
                         <span>Сертификаты</span>
                     </div>
                     <div class="cr-r-info">
-                        <div class="cr-r-content" id="modalCert">
-                            {% for certificate in user.certificates.all %}
-                                <img height="50" width="80" src="{% static certificate.url %}" v-on:click="openModal('{% static certificate.url %}')">
-                            {% endfor %}
-                            <br><a href="{% url 'users:certificates' pk=user.pk %}">Смотреть все</a><br>
-                            <div class="modalDialog" :key="isModal" v-if="isModal">
-                                <div>
-                                    <img height="500" width="800" :src="src" v-on:click="openModal">
+                        {% if user.certificates.all %}
+                            <div class="cr-r-content" id="modalCert">
+                                {% for certificate in user.certificates.all %}
+                                    <img height="50" width="80" src="{% static certificate.url %}" v-on:click="openModal('{% static certificate.url %}')">
+                                {% endfor %}
+                                <br><a href="{% url 'users:certificates' pk=user.pk %}">Смотреть все</a><br>
+                                <div class="modalDialog" :key="isModal" v-if="isModal">
+                                    <div>
+                                        <img height="500" width="800" :src="src" v-on:click="openModal">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        {% else %}
+                            <div class="empty-container"><span class="txt-empty">Сертификаты отсутствуют.</span></div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

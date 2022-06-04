@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     'projects',
     'events',
     'auth_users',
+    'django.forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -108,3 +109,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
+

@@ -5,8 +5,8 @@ let map = new Vue({
     },
     methods: {
         loadMap: function(events){
+            //console.log(events)
             ymaps.ready(init);
-            console.log(events)
             function init() {
                 var myMap = new ymaps.Map('map', {
                     center: [55.751574, 37.573856],
@@ -17,9 +17,9 @@ let map = new Vue({
                 });
 
                 for (i=0; i < events.length; i++) {
-                    date_start = new Date(events[i].fields.date_start)
+                    date_start = new Date(events[i].date_start)
                     date_start = date_start.toLocaleDateString() + ' ' + date_start.toLocaleTimeString()
-                    date_end = new Date(events[i].fields.date_end)
+                    date_end = new Date(events[i].date_end)
                     date_end = date_end.toLocaleDateString() + ' ' + date_end.toLocaleTimeString()
 
                     MyBalloonLayout = ymaps.templateLayoutFactory.createClass(
@@ -138,24 +138,28 @@ let map = new Vue({
                         }
                     })
 
-                    var placemark = new ymaps.Placemark([events[i].fields.coordinates_latitude, events[i].fields.coordinates_longitude], {
+                    var placemark = new ymaps.Placemark([events[i].coordinates_latitude, events[i].coordinates_longitude], {
                         // Зададим содержимое заголовка балуна.
-                        balloonContentHeader: '<h3 class="popover-title"><a href = "/events/' + events[i].pk + '">' + events[i].fields.name + '</a></h3>',
+                        balloonContentHeader: '<h3 class="popover-title"><a href = "/events/' + events[i].pk + '">' + events[i].name + '</a></h3>',
                         // Зададим содержимое основной части балуна.
                         balloonContentBody: '<div class="map-body-container">' +
-                            '<div><span class="map-direction">Старшее поколение</span></div>' +
-                            '<div><span>' + events[i].fields.address + '</span>' +
-                            '' + date_start + ' - ' + date_end + '</div>' +
+                            '<div><a class="map-direction" href="/projects/' + events[i].project.pk + '">' + events[i].project.name + '</a></div>' +
+                            '<div class="mt-2"><h3 class="map-title">Время и место проведения</h3><span class="map-address">' + events[i].address + '</span>' +
+                            '<span class="map-date">' + date_start + ' - ' + date_end + '</span></div>' +
+                            '<div class="mt-1"><h3 class="map-title">Организатор</h3>' +
+                            '<a class="map-user-link" href="/volunteers/' + events[i].contact_user.pk + '"><div class="map-user-menu-container mb-1">' +
+                            '<img width="35" height="35" class="map-user-avatar" src="' + events[i].contact_user.avatar + '">' +
+                            '<span class="map-user-name">' + events[i].contact_user.first_name + ' ' + events[i].contact_user.last_name + '</span></div></a>' +
                             '</div>',
                         // Зададим содержимое нижней части балуна.
-                        balloonContentFooter: 'Информация предоставлена:<br/>' + events[i].fields.name,
+                        //balloonContentFooter: 'Информация предоставлена:<br/>' + events[i].fields.name,
                         // Зададим содержимое всплывающей подсказки.
-                        hintContent: events[i].fields.name
+                        hintContent: events[i].name
                     }, {
                         balloonShadow: false,
                         balloonLayout: MyBalloonLayout,
                         balloonPanelMaxMapArea: 0,
-                        preset: 'islands#redIcon'
+                        preset: 'islands#redIcon'//'islands#blueAirportIcon'
                     });
 
                     myMap.geoObjects.add(placemark);
