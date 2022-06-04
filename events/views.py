@@ -1,3 +1,5 @@
+import json
+
 from django.views.generic import DetailView, ListView
 from django.shortcuts import redirect, get_object_or_404, render, reverse
 from datetime import datetime
@@ -6,6 +8,34 @@ from .models import Event, Follow, Function, Favorites
 from .filters import Event_Filter
 from .forms import EventForm, EventFormCreate, FunctionFormCreate
 from django.contrib.auth.decorators import login_required
+
+from rest_framework import serializers
+from rest_framework.renderers import JSONRenderer
+
+from events.models import Event
+from users.models import User
+from projects.models import Project
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('pk', 'avatar', 'first_name', 'last_name')
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = ('pk', 'name')
+
+
+class EventSerializer(serializers.ModelSerializer):
+    contact_user = UserSerializer(read_only=True)
+    project = ProjectSerializer(read_only=True)
+
+    class Meta:
+        model = Event
+        fields = ('pk', 'name', 'date_end', 'date_start', 'coordinates_latitude', 'coordinates_longitude', 'address', 'project', 'contact_user')
 
 
 @login_required
@@ -40,6 +70,7 @@ def EventDetail(request, pk):
         'count_u_func': count_u_func
     }
     return render(request, 'events/event_detail.html', context)
+
 
 
 def EventsList(request):
@@ -121,6 +152,7 @@ def profile_unfollow(request, pk):
     Follow.objects.filter(user=request.user, event=follow).delete()
     return redirect('events:event_detail', pk=pk)
 
+
 @login_required
 def profile_follow(request, pk):
     event = get_object_or_404(Event, pk=pk)
@@ -135,14 +167,18 @@ def profile_follow(request, pk):
         request, 'events/follow.html', {'form': form}
     )
 
+
 @login_required
 def follow_index(request):
     follows = Follow.objects.filter(user=request.user)
+    serializer = EventSerializer(follows, many=True)
     context = {
         'follows': follows,
+        'events_json': json.loads(JSONRenderer().render(serializer.data)),
         'condition': True
     }
     return render(request, 'events/events_follow.html', context)
+
 
 @login_required
 def profile_unfavorite(request, pk):
@@ -150,12 +186,12 @@ def profile_unfavorite(request, pk):
     Favorites.objects.filter(user=request.user, event=favorite).delete()
     return redirect('events:event_detail', pk=pk)
 
+
 @login_required
 def profile_favorite(request, pk):
     favorite = get_object_or_404(Event, pk=pk)
     Favorites.objects.get_or_create(user=request.user, event=favorite)
     return redirect('events:event_detail', pk=pk)
-
 
 
 @login_required
@@ -173,24 +209,29 @@ def profile_follow_func(request, pk_event, pk_funk):
     return redirect('events:event_detail', pk=event_follow.pk)
 
 
-
 @login_required
 def favorites_index(request):
     favorites = Favorites.objects.filter(user=request.user)
+    serializer = EventSerializer(favorites, many=True)
     context = {
+        'events_json': json.loads(JSONRenderer().render(serializer.data)),
         'follows': favorites,
         'condition': True
     }
     return render(request, 'events/events_follow.html', context)
 
+
 @login_required
 def own_index(request):
     owns = Event.objects.filter(contact_user=request.user)
+    serializer = EventSerializer(owns, many=True)
     context = {
         'owns': owns,
+        'events_json': json.loads(JSONRenderer().render(serializer.data)),
         'condition': False
     }
     return render(request, 'events/events_follow.html', context)
+
 
 @login_required
 def event_create(request):
@@ -206,6 +247,7 @@ def event_create(request):
         request, 'events/create_event.html', {'form': form}
     )
 
+
 @login_required
 def function_create(request, pk):
     form = FunctionFormCreate(request.POST or None)
@@ -220,6 +262,7 @@ def function_create(request, pk):
     return render(
         request, 'events/create_function.html', {'form': form}
     )
+
 
 @login_required
 def event_edit(request, pk):
@@ -242,6 +285,7 @@ def event_edit(request, pk):
         request, 'events/create_event.html', {'form': form}
     )
 
+
 @login_required
 def function_edit(request, pk):
     function = get_object_or_404(Function, pk=pk)
@@ -262,18 +306,3 @@ def function_edit(request, pk):
     return render(
         request, 'events/create_event.html', {'form': form}
     )
-    # FunFormSet=inlineformset_factory(Event, Function, fields=('name','description','task','condition','count'),extra=1)
-    # function = get_object_or_404(Function, pk=pk)
-    # formset = FunFormSet(
-    #     # request.POST,
-    #     # files=request.FILES,
-    #     initial=function.event
-    # )
-    # # if request.method == 'POST':
-    # #     formset=FunFormSet(request.POST,initial=function.event)
-    # if formset.is_valid():
-    #     formset.save()
-    #     return redirect('events:event_detail', pk=function.event.pk)
-    # return render(
-    #     request, 'events/create_function.html', {'form': formset}
-    # )

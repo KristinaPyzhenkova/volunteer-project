@@ -10,7 +10,7 @@
                     {% csrf_token %}
                     {% for field in form %}
                         {% if field.label == 'Аватар'%}
-                            {{field.label}}:{{field}}
+                            {{field}}
                         {% else %}
                             <div class="mt-4 d-flex">
                                 <span class="form-edit-label">{{field.label}}:</span> {{field|add_class:'form-edit-user'}}
