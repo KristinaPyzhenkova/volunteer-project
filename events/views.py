@@ -5,6 +5,7 @@ from django.shortcuts import redirect, get_object_or_404, render, reverse
 from datetime import datetime
 
 from .models import Event, Follow, Function, Favorites
+from .filters import Event_Filter
 from .forms import EventForm, EventFormCreate, FunctionFormCreate
 from django.contrib.auth.decorators import login_required
 
@@ -42,6 +43,9 @@ def EventDetail(request, pk):
     event = get_object_or_404(Event, pk=pk)
     following = Follow.objects.filter(user=request.user, event=event).exists()
     favorites = Favorites.objects.filter(user=request.user, event=event).exists()
+    following_func = []
+    for i in Follow.objects.filter(user=request.user, event=event):
+        following_func.append(i.function.pk)
     functions = Function.objects.filter(event=event)
     len_functions = len(functions)
     user_count = event.following.count()
@@ -50,6 +54,9 @@ def EventDetail(request, pk):
     for i in functions:
         count_u.append(int(i.count))
     count_remainder = (True if (sum(count_u)>user_count) else False)
+    count_u_func={}
+    for i in functions:
+        count_u_func[i.pk] = i.following.count()
     context = {
         'event': event,
         'following': following,
@@ -58,15 +65,20 @@ def EventDetail(request, pk):
         'favorites': favorites,
         'users_following': users_following,
         'len_functions': len_functions,
-        'count_remainder': count_remainder
+        'count_remainder': count_remainder,
+        'following_func': following_func,
+        'count_u_func': count_u_func
     }
     return render(request, 'events/event_detail.html', context)
 
 
-class EventsList(ListView):
-    model = Event
-    template_name = 'events/events.html'
-    context_object_name = 'events'
+
+def EventsList(request):
+    events = Event.objects.all()
+    filter = Event_Filter(request.GET, queryset=events)
+    events = filter.qs
+    context = {'events': events, 'filter': filter}
+    return render(request, 'events/events.html', context)
 
 
 class EventsListActive(ListView):
@@ -85,7 +97,10 @@ class EventsListActive(ListView):
             if sum(count_u)>event_one.following.count() and event_one.date_end.date()>datetime.now().date():
                 events_pk.append(event_one.pk)
         events=events_all.filter(pk__in=events_pk)
+        filter = Event_Filter(self.request.GET, queryset=events)
+        events = filter.qs
         context['events'] = events
+        context['filter'] = filter
         return context
 
 
@@ -105,7 +120,10 @@ class EventsListProcess(ListView):
             if sum(count_u)==event_one.following.count() and event_one.date_end.date()>datetime.now().date():
                 events_pk.append(event_one.pk)
         events=events_all.filter(pk__in=events_pk)
+        filter = Event_Filter(self.request.GET, queryset=events)
+        events = filter.qs
         context['events'] = events
+        context['filter'] = filter
         return context
 
 
@@ -121,7 +139,10 @@ class EventsListClose(ListView):
             if event_one.date_end.date()<datetime.now().date():
                 events_pk.append(event_one.pk)
         events=events_all.filter(pk__in=events_pk)
+        filter = Event_Filter(self.request.GET, queryset=events)
+        events = filter.qs
         context['events'] = events
+        context['filter'] = filter
         return context
 
 
@@ -153,7 +174,8 @@ def follow_index(request):
     serializer = EventSerializer(follows, many=True)
     context = {
         'follows': follows,
-        'events_json': json.loads(JSONRenderer().render(serializer.data))
+        'events_json': json.loads(JSONRenderer().render(serializer.data)),
+        'condition': True
     }
     return render(request, 'events/events_follow.html', context)
 
@@ -173,14 +195,30 @@ def profile_favorite(request, pk):
 
 
 @login_required
+def profile_unfollow_func(request, pk_event, pk_funk):
+    event_follow = get_object_or_404(Event, pk=pk_event)
+    func_follow = get_object_or_404(Function, event_id=event_follow.pk, pk=pk_funk)
+    Follow.objects.filter(user=request.user, event=event_follow, function=func_follow).delete()
+    return redirect('events:event_detail', pk=event_follow.pk)
+
+@login_required
+def profile_follow_func(request, pk_event, pk_funk):
+    event_follow = get_object_or_404(Event, pk=pk_event)
+    func_follow = get_object_or_404(Function, event_id=event_follow.pk,pk=pk_funk)
+    Follow.objects.get_or_create(user=request.user, event=event_follow, function=func_follow)
+    return redirect('events:event_detail', pk=event_follow.pk)
+
+
+@login_required
 def favorites_index(request):
     favorites = Favorites.objects.filter(user=request.user)
     serializer = EventSerializer(favorites, many=True)
     context = {
-        'favorites': favorites,
-        'events_json': json.loads(JSONRenderer().render(serializer.data))
+        'events_json': json.loads(JSONRenderer().render(serializer.data)),
+        'follows': favorites,
+        'condition': True
     }
-    return render(request, 'events/events_favorites.html', context)
+    return render(request, 'events/events_follow.html', context)
 
 
 @login_required
@@ -189,9 +227,10 @@ def own_index(request):
     serializer = EventSerializer(owns, many=True)
     context = {
         'owns': owns,
-        'events_json': json.loads(JSONRenderer().render(serializer.data))
+        'events_json': json.loads(JSONRenderer().render(serializer.data)),
+        'condition': False
     }
-    return render(request, 'events/events_own.html', context)
+    return render(request, 'events/events_follow.html', context)
 
 
 @login_required
@@ -267,18 +306,3 @@ def function_edit(request, pk):
     return render(
         request, 'events/create_event.html', {'form': form}
     )
-    # FunFormSet=inlineformset_factory(Event, Function, fields=('name','description','task','condition','count'),extra=1)
-    # function = get_object_or_404(Function, pk=pk)
-    # formset = FunFormSet(
-    #     # request.POST,
-    #     # files=request.FILES,
-    #     initial=function.event
-    # )
-    # # if request.method == 'POST':
-    # #     formset=FunFormSet(request.POST,initial=function.event)
-    # if formset.is_valid():
-    #     formset.save()
-    #     return redirect('events:event_detail', pk=function.event.pk)
-    # return render(
-    #     request, 'events/create_function.html', {'form': formset}
-    # )

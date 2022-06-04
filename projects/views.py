@@ -12,6 +12,7 @@ def ProjectDetail(request, pk):
     project = get_object_or_404(Project, pk=pk)
     events_project = project.events.all()
     favorites = [Favorites.objects.filter(user=request.user, event=event).exists() for event in events_project]
+    len_event = len(events_project)
     if favorites.count(True)==len(favorites):
         favorites = True
     elif True in favorites and False in favorites:
@@ -21,7 +22,8 @@ def ProjectDetail(request, pk):
     context = {
         'project': project,
         'events_project': events_project,
-        'favorites': favorites
+        'favorites': favorites,
+        'len_event': len_event
     }
     return render(request, 'projects/project_detail.html', context)
 

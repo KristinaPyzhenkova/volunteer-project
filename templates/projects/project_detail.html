@@ -4,11 +4,10 @@
 {% block content %}
 <div class="limiter">
       <div class="container-fix">
-            <div style="width:100%; height:1px; clear:both;"></div>
           <div>
               <div style="display: flex;">
                     <div class="line_block_detail_project_1">
-                        <p><img src="{{ project.avatar_url }}" width="180" height="180"></p>
+                        <p><img src="{{ project.avatar_url.url }}" width="180" height="180"></p>
                     </div>
                     <div class="line_block_detail_project_2">
                             <h2 class="cl_h2">{{ project.name }}</h2>
@@ -44,20 +43,26 @@
                       </tr>
                   </table>
               </div>
-              <div>
-                  <h2 class="cl_h2">Mероприятия проекта</h2>
-                     <ul>
-                         {% for event_project in events_project %}
-                         <li>
-                             <a href="{% url 'events:event_detail' pk=event_project.pk %}">
-                             <span>{{ event_project.name }}</span>
-                             </a>
-                         </li>
-                         {% endfor %}
-                     </ul>
+              <div class="line_block_detail_project_main_3">
+                  {% if len_event > 0 %}
+                      <h2 class="cl_h2">Mероприятия проекта</h2>
+                         <ul>
+                             <div style="display: flex;">
+                             {% for event_project in events_project %}
+                             <div class="line_block_detail_project_3">
+                                 <li>
+                                     <img src="{{ event_project.avatar_url.url }}">
+                                     <br><a href="{% url 'events:event_detail' pk=event_project.pk %}">
+                                     <span>{{ event_project.name }}</span>
+                                     </a>
+                                 </li>
+                             </div>
+                             {% endfor %}
+                             </div>
+                         </ul>
+                  {% endif %}
               </div>
           </div>
-            <div style="width:100%; height:1px; clear:both;"></div>
       </div>
 </div>
 

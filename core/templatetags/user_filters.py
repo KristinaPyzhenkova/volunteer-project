@@ -34,3 +34,7 @@ def declension(cnt: int, first: str, second: str, third: str):
 @register.filter
 def get_type(value):
     return type(value)
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
