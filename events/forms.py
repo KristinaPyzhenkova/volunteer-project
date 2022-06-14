@@ -1,7 +1,7 @@
 from django.forms import ModelForm, DateField, modelformset_factory
 from django import forms
 from .models import Follow, Function, Event
-
+from datetime import datetime
 
 
 class EventForm(ModelForm):
@@ -30,13 +30,14 @@ class DateTimeInputWidget(forms.DateTimeInput):
 
 
 class EventFormCreate(ModelForm):
+    date_start = forms.DateTimeField(widget=DateTimeInputWidget(attrs={'type': 'datetime-local'}),
+                                     initial=datetime.today(), localize=True)
+    date_end = forms.DateTimeField(widget=DateTimeInputWidget(attrs={'type': 'datetime-local'}),
+                                     initial=datetime.today(), localize=True)
+
     class Meta:
         model = Event
         fields = ('name', 'status', 'avatar_url', 'description', 'date_start', 'date_end', 'project')
-        widgets = {
-            'date_start': DateTimeInputWidget(attrs={'type': 'datetime'}),
-            'date_end': DateTimeInputWidget(attrs={'type': 'datetime'})
-        }
 
 
 class FunctionFormCreate(ModelForm):

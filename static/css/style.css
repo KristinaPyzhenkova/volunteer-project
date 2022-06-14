@@ -1238,45 +1238,91 @@
     text-decoration: none;
 }
 
-.line_block {
+.line_block a {
     width: 100%;
+    position: relative;
+    cursor: pointer;
+    -webkit-transition:all 0.35s linear;
+    transition:all 0.35s linear;
 }
 
-.line_block ul {
+.line_block a:hover {
+    -webkit-box-shadow: 0 35px 35px -35px #000000;
+    -moz-box-shadow: 0 35px 35px -35px #000000;
+    box-shadow: 0 35px 35px -35px #000000;
+}
+
+.line_block_items {
+    display: block;
+    position: relative;
+    background:rgba(240,240,240,1);
     text-align: center;
-    list-style: none;
-}
-
-.line_block li {
-    display: block;
-    background:rgb(241,241,241);
-    width:350px;
-    height:300px;
-    margin: 0 15px 15px 0;
-    text-align:center;
-    padding: 10px;
+    width:48%;
+    height:200px;
+    margin: 10px 5px;
+    padding: 5px;
     float: left;
+    -webkit-transition:all 0.35s ease;
+    transition:all 0.35s ease;
     font-family: Montserrat-Regular;
-    font-style: italic;
-    border-radius: 20px;
-    color: #808080;
+    padding:20px 0;
 }
 
-.line_block li:hover {
-    display: block;
-    background:rgb(200,200,200);
+.line_block img{
+    width:90px;
+    height:100px;
 }
 
-.line_block li a {
-    color: black;
-    font-family: Montserrat-Regular;
-    font-weight: bold;
-    float: left;
+.title_line_block, .hideText {
+    position: absolute;
+    left:0;
+    bottom:10px;
+    text-align: center;
+    width: 100%;
+    margin: 0;
+    color: #000000;
+    -webkit-transition:all 0.35s ease;
+    transition:all 0.35s ease;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.title_line_block {
+    height: 50px;
     font-size: 16px;
-    text-align: center;
-    padding: 10px 5px;
-    text-decoration: none;
+    background:rgba(240,240,240,1);
+    z-index: 10;
 }
+
+.hideText {
+    height: 50px;
+    font-size: 14px;
+    padding: 1em 0;
+    background:rgba(240,240,240,1);
+    font-weight: 300;
+    z-index: 8;
+    height: 50px;
+    -webkit-transition:all 0.35s linear 0.2s;
+    transition:all 0.35s linear 0.2s;
+}
+
+/*Анимация при наведении видимого текстового блока*/
+.line_block a:hover p.title_line_block{
+    bottom:60px;
+}
+
+/*Анимация при наведении скрытого текстового блока*/
+.line_block:hover p.hideText{
+    background:#454545;
+    color:rgb(255,255,255);
+    text-align: center;
+}
+
+
+
+
+
 
 .cl_h2 {
     text-align: center;
@@ -2203,3 +2249,121 @@
     color: #ffffff;
 }
 
+=======
+.myInput {
+  background-image: url('/static/img/search2.png');
+  background-position: 5px 5px;
+  background-repeat: no-repeat;
+  width: 92%;
+  font-size: 0.9em;
+  color:#333;
+  border:1px solid rgb(0,0,0,0.2);
+  margin-bottom: 5px;
+  list-style: none;
+  text-align: left;
+  font-family: Montserrat-Regular;
+  display:block;
+  background:#fff;
+  border-radius:1.5em;
+  padding:0.6em 2em 0.6em 2em;
+}
+
+
+#mySidenav a {
+    position: absolute; /* Position them relative to the browser window */
+    top: -80px;
+    transition: 0.3s; /* Add transition on hover */
+    padding: 3.5%;
+    width: 20%; /* Set a specific width */
+    text-decoration: none; /* Remove underline */
+    font-size: 20px; /* Increase font size */
+    color: white; /* White text color */
+    border-radius: 0 5px 5px 0; /* Rounded corners on the top right and bottom right side */
+}
+
+#mySidenav a:hover {
+    top: 0; /* On mouse-over, make the elements appear as they should */
+}
+
+/* The about link: 20px from the top with a green background */
+#about {
+    left: 20%;
+    background-color: #4CAF50;
+}
+
+#event {
+    left: 40%;
+    background-color: #2196F3; /* Blue */
+}
+
+#projects {
+    left: 60%;
+    background-color: #f44336; /* Red */
+}
+
+
+.modal-event {
+  left: 0;
+  top: 0;
+  width: 100px; /* Полная ширина */
+  height: 100px; /* Полная высота */
+  background-color: rgb(0,0,0); /* Цвет запасной вариант  */
+  background-color: rgba(0,0,0,0.4); /*Черный с непрозрачностью */
+}
+
+/* Кнопка закрытия */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.form-edit-label_func {
+    font-family:Montserrat-Bold;
+    font-size:16px;
+    display: block;
+    width: 30%;
+    padding: 10px 10px;
+    text-align:center;
+    background-color: rgb(235,235,235);
+    color: rgb(0,0,0);
+    border-radius: 20px;
+    border: 2px solid #C0C0C0; /* Параметры рамки */
+}
+
+.form-edit-user-func {
+    font-family:Montserrat-Regular;
+    font-size:1em;
+    color:#333;
+    display:block;
+    background:#fff;
+    border-radius:1em;
+    border:1px solid rgb(0,0,0,0.2);
+    text-align:center;
+    padding: 5px 15px;
+}
+
+.line_block_pr {
+    display: block;
+    position: relative;
+    background:rgba(240,240,240,1);
+    text-align: center;
+    width:30%;
+    height:200px;
+    margin: 10px 5px;
+    padding: 5px;
+    float: left;
+    -webkit-transition:all 0.35s ease;
+    transition:all 0.35s ease;
+    font-family: Montserrat-Regular;
+    padding:20px 0;
+}
+>>>>>>> fc0ab2b404058ff2253644413bfbb2568358135d

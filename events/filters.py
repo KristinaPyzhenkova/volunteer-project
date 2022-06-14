@@ -1,8 +1,9 @@
 import django_filters
-from django_filters import CharFilter, DateFilter
 from django import forms
+from datetime import datetime
 
 from .models import *
+from projects.models import Project
 
 
 class Event_Filter(django_filters.FilterSet):
@@ -17,14 +18,17 @@ class Event_Filter(django_filters.FilterSet):
         ('Дети и молодежь', 'Дети и молодежь'),
         ('Спорт и здоровье', 'Спорт и здоровье'),
     )
-    name = CharFilter(field_name='name', lookup_expr='icontains', label='Проект')
-    date_start = DateFilter(field_name='date_start', lookup_expr='gte', widget=forms.SelectDateWidget(
-        empty_label=("Выбери год", "Выбери месяц", "Выбери число"),), label='Дата начала'
+    name = django_filters.CharFilter(field_name='name', lookup_expr='icontains',
+                                     widget=forms.TextInput(attrs={"class": "form-edit-user",
+                                                                   'placeholder': 'Поиск'}))
+    date_start = django_filters.DateFilter(field_name='date_start', lookup_expr='gte', widget=forms.DateInput(attrs={'type': 'date',"class": "form-edit-user"}),
+                                     initial=datetime.today(), label='Дата начала не раньше чем:'
     )
-    date_end = DateFilter(field_name='date_end', lookup_expr='lte', widget=forms.SelectDateWidget(
-        empty_label=("Выбери год", "Выбери месяц", "Выбери число"),), label='Дата окончания'
+    date_end = django_filters.DateFilter(field_name='date_end', lookup_expr='lte', widget=forms.DateInput(attrs={'type': 'date',"class": "form-edit-user"}),
+                                     initial=datetime.today(), label='Дата окончания не позднее чем:'
     )
-    project__name = django_filters.ChoiceFilter(choices=PROJECT, label='Направление проекта')
+    project__name = django_filters.MultipleChoiceFilter(choices=PROJECT, label='Направление проекта',
+                                                widget=forms.CheckboxSelectMultiple(attrs={"class": "form-edit-user"}))
 
     class Meta:
         model = Event

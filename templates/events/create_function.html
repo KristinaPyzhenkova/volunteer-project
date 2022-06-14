@@ -9,10 +9,8 @@
                     <form method="post" enctype="multipart/form-data" {% if action_url %} action="{% url action_url %}" {% endif %}>
                         {% csrf_token %}
                           {% for field in form %}
-                                <label>
-                                    {{ field.label }}
-                                    {{ field }}
-                                    <hr>
+                            <span class="form-edit-label"><br>{{ field.label }}:</span>
+                                     <br>{{ field }}
                                 </label>
                               {% if field.help_text %}
                                 <small id="{{ field.id_for_label }}-help">

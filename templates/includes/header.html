@@ -1,6 +1,6 @@
 {% load static %}
 <header>
-  <nav class="navbar navbar-light" style="background: linear-gradient(38deg, rgba(255,255,255,1) 30%, rgba(0,0,0,1) 70%);">
+  <nav class="navbar navbar-light" style="background: 0,0,0);">
     <div class="container-fix container-header">
       <a class="navbar-brand" href="/">
         <img src="{% static 'img/logo.png' %}" width="40" height="30" class="d-inline-block align-top" alt="">
@@ -11,15 +11,17 @@
       </a>
       <ul class="nav" id="nav">
         {% if request.user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link link-light inglobal-bold" href="{% url 'live_index' %}">Главная</a>
+          <div id="mySidenav" class="sidenav">
+            <li>
+              <a id="about" href="{% url 'live_index' %}">Главная</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link link-light inglobal-bold" href="{% url 'events:event_list' %}">Мероприятия</a>
+            <li>
+              <a id="event" href="{% url 'events:event_list' %}">Мероприятия</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link link-light inglobal-bold" href="{% url 'projects:projects_list' %}">Проекты</a>
+            <li>
+              <a id="projects" href="{% url 'projects:projects_list' %}">Проекты</a>
             </li>
+          </div>
             <li class="nav-item">
                 <div class="user-menu"><div class="user-menu-container" id="user-menu-container" v-on:click="openMenu">
                       <img width="35" height="35" class="user-avatar" src="{{request.user.avatar.url}}">

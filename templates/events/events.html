@@ -8,24 +8,22 @@
           <div class="container-fix d-flex">
               <div class="content-l">
                     <div class="line_block">
-                        <ul>
-                            {% for event in events %}
-                                <a href="{% url 'events:event_detail' pk=event.pk %}">
-                                    <li>
-                                        <img src="{{ event.avatar_url.url }}" width="120" height="120"> <br>
-                                        <span>{{ event.name }}</span>
-                                        <br> <span>{{ event.status }}</span>
-                                        <br> <span>{{ event.date_start|date:"d E Y" }} -  {{ event.date_end|date:"d E Y" }}</span>
-                                    </li>
-                                </a>
-                            {% endfor %}
-                        </ul>
+                        {% for event in events %}
+                            <a href="{% url 'events:event_detail' pk=event.pk %}">
+                                <div class="line_block_items">
+                                    <img src="{{ event.avatar_url.url }}"> <br>
+                                    <p class="title_line_block">{{ event.name }}</p>
+                                    <p class="hideText">{{ event.status }}
+                                    <br>{{ event.date_start|date:"d E Y" }} -  {{ event.date_end|date:"d E Y" }}</p>
+                                </div>
+                            </a>
+                        {% endfor %}
                     </div>
               </div>
               <div class="content-r">
                 <form method="get">
                   {{ filter.form }}
-                  <button class="btn-save" type="submit">Search </button>
+                  <button class="btn-save" type="submit"> Поиск </button>
                 </form>
               </div>
           </div>

@@ -11,7 +11,6 @@ urlpatterns = [
     path('process/', EventsListProcess.as_view(), name='EventsListProcess'),
     path('closed/', EventsListClose.as_view(), name='EventsListClose'),
     path('<int:pk>/', views.EventDetail, name='event_detail'),
-    path('<int:pk>/follow/', views.profile_follow, name='profile_follow'),
     path('<int:pk>/unfollow/', views.profile_unfollow, name='profile_unfollow'),
     path('<int:pk>/unfavorite/', views.profile_unfavorite, name='profile_unfavorite'),
     path('<int:pk>/favorite/', views.profile_favorite, name='profile_favorite'),
