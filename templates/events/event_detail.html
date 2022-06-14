@@ -7,7 +7,7 @@
       <div class="container-fix">
             <h2 class="cl_h2">{{ event.name }}</h2>
             <div style="display: flex">
-                  <div class="line_block_detail_1">
+                  <div class="line_block_detail_1" id="event_modal">
                         <img src="{{ event.avatar_url.url }}" width="120" height="120">
                         <p><span >{{ user_count }}</span> волонтеров подали заявку на текущее мероприятие</p>
                         {% if request.user != event.contact_user %}
@@ -17,9 +17,29 @@
                                     </a>
                               {% else %}
                                     {% if count_remainder %}
-                                          <a href="{% url 'events:profile_follow' pk=event.pk %}">
-                                                <button>Присоединиться</button>
-                                          </a>
+                                          <button v-on:click="openEvent">Присоединиться</button>
+                                                <div class="modalDialog" :key="menuEvent" v-if="menuEvent">
+                                                      <div class="form-edit-label_func">
+                                                            <form method="post" enctype="multipart/form-data">
+                                                                  <span class="close" v-on:click="openEvent">&times;</span>
+                                                              {% csrf_token %}
+                                                                {% for field in form %}
+                                                                            <label>
+                                                                                  <span>Выбери функцию для присоединения к проекту:</span>
+                                                                                  {{ field|add_class:'form-edit-user-func' }}
+                                                                            </label>
+                                                                          {% if field.help_text %}
+                                                                            <small id="{{ field.id_for_label }}-help">
+                                                                              {{ field.help_text|safe }}
+                                                                            </small>
+                                                                          {% endif %}
+                                                                      {% endfor %}
+                                                                        <button class="btn-save" type="submit">
+                                                                            Сохранить
+                                                                        </button>
+                                                            </form>
+                                                      </div>
+                                                </div>
                                     {% else %}
                                           <button>Волонтеры наброны</button>
                                     {% endif %}
@@ -140,4 +160,7 @@
             </div>
       </div>
 </div>
+{% endblock %}
+{% block js %}
+    <script src="{% static 'js/event.js' %}"></script>
 {% endblock %}

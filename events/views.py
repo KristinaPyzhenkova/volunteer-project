@@ -57,6 +57,13 @@ def EventDetail(request, pk):
     count_u_func={}
     for i in functions:
         count_u_func[i.pk] = i.following.count()
+    form = EventForm(request.POST or None, event=event)
+    if form.is_valid():
+        fun = form.save(commit=False)
+        fun.user = request.user
+        fun.event = event
+        fun.save()
+        return redirect('events:event_detail', pk=pk)
     context = {
         'event': event,
         'following': following,
@@ -67,10 +74,10 @@ def EventDetail(request, pk):
         'len_functions': len_functions,
         'count_remainder': count_remainder,
         'following_func': following_func,
-        'count_u_func': count_u_func
+        'count_u_func': count_u_func,
+        'form': form
     }
     return render(request, 'events/event_detail.html', context)
-
 
 
 def EventsList(request):
@@ -151,21 +158,6 @@ def profile_unfollow(request, pk):
     follow = get_object_or_404(Event, pk=pk)
     Follow.objects.filter(user=request.user, event=follow).delete()
     return redirect('events:event_detail', pk=pk)
-
-
-@login_required
-def profile_follow(request, pk):
-    event = get_object_or_404(Event, pk=pk)
-    form = EventForm(request.POST or None, event=event)
-    if form.is_valid():
-        fun = form.save(commit=False)
-        fun.user = request.user
-        fun.event = event
-        fun.save()
-        return redirect('events:event_detail', pk=pk)
-    return render(
-        request, 'events/follow.html', {'form': form}
-    )
 
 
 @login_required
