@@ -1,33 +1,33 @@
 {% if user.is_authenticated %}
-  <div class="row">
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
+  <div class="container-nav">
+    <ul class="tabs-nav">
+      <li>
         <a
-          class="nav-link"
+          class="link-nav {% if '/' == request.path %}link-nav-active{% endif %}"
           href="{% url 'live_index' %}"
         >
           Ближайшие мероприятия
         </a>
       </li>
-      <li class="nav-item">
+      <li>
         <a
-          class="nav-link"
+          class="link-nav {% if '/events/favorites/' == request.path %}link-nav-active{% endif %}"
           href="{% url 'events:favorites_index' %}"
         >
           Избранные мероприятия
         </a>
       </li>
-      <li class="nav-item">
+      <li>
         <a
-           class="nav-link"
+           class="link-nav {% if '/events/follow/' == request.path %}link-nav-active{% endif %}"
            href="{% url 'events:follow_index' %}"
         >
           Принимаю участие
         </a>
       </li>
-      <li class="nav-item">
+      <li>
         <a
-           class="nav-link"
+           class="link-nav {% if '/events/own/' == request.path %}link-nav-active{% endif %}"
            href="{% url 'events:own_index' %}"
         >
           Созданные мной

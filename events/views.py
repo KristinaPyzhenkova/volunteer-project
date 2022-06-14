@@ -26,7 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        fields = ('pk', 'name')
+        fields = ('pk', 'name', 'marker')
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -70,7 +70,6 @@ def EventDetail(request, pk):
         'count_u_func': count_u_func
     }
     return render(request, 'events/event_detail.html', context)
-
 
 
 def EventsList(request):
@@ -170,7 +169,7 @@ def profile_follow(request, pk):
 
 @login_required
 def follow_index(request):
-    follows = Follow.objects.filter(user=request.user)
+    follows = Event.objects.filter(following__user=request.user)
     serializer = EventSerializer(follows, many=True)
     context = {
         'follows': follows,
@@ -211,7 +210,7 @@ def profile_follow_func(request, pk_event, pk_funk):
 
 @login_required
 def favorites_index(request):
-    favorites = Favorites.objects.filter(user=request.user)
+    favorites = Event.objects.filter(favorites__user=request.user)
     serializer = EventSerializer(favorites, many=True)
     context = {
         'events_json': json.loads(JSONRenderer().render(serializer.data)),

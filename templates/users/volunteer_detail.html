@@ -13,7 +13,7 @@
                             <span class="profile-name">{{user.get_full_name}}</span>
                             <span class="profile-status">{{user.status}}</span>
                             {% if request.user.pk == user.pk %}
-                                <a href="{% url 'users:edit' %}">Редактировать</a>
+                                <a class="link-create mt-2" href="{% url 'users:edit' %}">Редактировать</a>
                             {% endif %}
                         </div>
                     </div>

@@ -20,7 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        fields = ('pk', 'name')
+        fields = ('pk', 'name', 'marker')
 
 
 class EventSerializer(serializers.ModelSerializer):

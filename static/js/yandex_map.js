@@ -137,11 +137,8 @@ let map = new Vue({
                             return element && element[0] && element.find('.arrow')[0];
                         }
                     })
-
                     var placemark = new ymaps.Placemark([events[i].coordinates_latitude, events[i].coordinates_longitude], {
-                        // Зададим содержимое заголовка балуна.
                         balloonContentHeader: '<h3 class="popover-title"><a href = "/events/' + events[i].pk + '">' + events[i].name + '</a></h3>',
-                        // Зададим содержимое основной части балуна.
                         balloonContentBody: '<div class="map-body-container">' +
                             '<div><a class="map-direction" href="/projects/' + events[i].project.pk + '">' + events[i].project.name + '</a></div>' +
                             '<div class="mt-2"><h3 class="map-title">Время и место проведения</h3><span class="map-address">' + events[i].address + '</span>' +
@@ -151,15 +148,12 @@ let map = new Vue({
                             '<img width="35" height="35" class="map-user-avatar" src="' + events[i].contact_user.avatar + '">' +
                             '<span class="map-user-name">' + events[i].contact_user.first_name + ' ' + events[i].contact_user.last_name + '</span></div></a>' +
                             '</div>',
-                        // Зададим содержимое нижней части балуна.
-                        //balloonContentFooter: 'Информация предоставлена:<br/>' + events[i].fields.name,
-                        // Зададим содержимое всплывающей подсказки.
                         hintContent: events[i].name
                     }, {
                         balloonShadow: false,
                         balloonLayout: MyBalloonLayout,
                         balloonPanelMaxMapArea: 0,
-                        preset: 'islands#redIcon'//'islands#blueAirportIcon'
+                        preset: events[i].project.marker
                     });
 
                     myMap.geoObjects.add(placemark);

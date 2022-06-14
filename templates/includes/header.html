@@ -28,7 +28,6 @@
                     <div class="menu-user-div" :key="menuUser" v-if="menuUser">
                         <ul class="menu-user-ul">
                              <li><a class="menu-user-a menu-user-a-profile" href="{% url 'users:volunteer_detail' pk=request.user.pk %}">Профиль</a></li>
-                             <li><a class="menu-user-a" href="">Статистика</a></li>
                              <li><a class="menu-user-a" href="{% url 'events:event_create' %}">Создать мероприятие</a></li>
                              <li><a class="menu-user-a menu-user-a-exit" href="{% url 'auth_users:logout' %}">Выйти</a></li>
                         </ul>
