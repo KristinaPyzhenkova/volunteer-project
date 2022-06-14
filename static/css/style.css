@@ -1019,6 +1019,7 @@
 
 .cr-r-title{
     margin-bottom: 1.5em;
+    background-color:
 }
 
 .cr-r-title-stat{
@@ -1617,11 +1618,11 @@
     text-decoration: none;
 }
 
-.profile-title {
+.profile-title, .event-title {
     padding: 1em 2em;
 }
 
-.profile-title span {
+.profile-title span, .event-title span {
     display: block;
 }
 
@@ -1647,29 +1648,38 @@
     font-size: 1em;
 }
 
-.profile-info {
+.profile-info, .event-info {
     width: 100%;
     margin-top: 1.5em;
 }
 
-.profile-info-title span {
+.profile-info-title span, .event-info-title span {
     font-family: inglobal-bold;
     font-size: 1.5em;
-    padding: 0.5em 0;
+    padding: 1px 0;
 }
 
-.profile-info-txt {
+.profile-info-txt, .event-info-txt {
     font-family: Montserrat-Regular;
     font-size: 1em;
     margin-top: 1em;
 }
+.event-info-title {
+    background-color: #BDF1FF;
+    padding: 0 1em;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+}
 
-.profile-info-txt p {
+
+
+.profile-info-txt p, .event-info-txt p {
     padding: 0;
     margin: 0;
 }
 
-.profile-info-txt span {
+.profile-info-txt span, .event-info-txt span {
     display: block;
     font-family: Montserrat-Regular;
 }
@@ -1729,7 +1739,57 @@
     padding: 0;
 }
 
+.form-edit-info-container {
+    background:#fff;
+    border-top-left-radius:25px;
+    border-top-right-radius:25px;
+    border:1px solid rgb(0,0,0,0.2);
+    display:block;
+    width:600px;
+}
+
+.form-edit-info-container textarea {
+    min-height: 300px;
+    width: 100%;
+    font-size: 15px;
+    border: none;
+    padding: 5px 10px;
+}
+
+.form-edit-info-nav {
+    border-bottom:1px solid rgb(0,0,0,0.2);
+    height: 40px;
+    width: 100%;
+    display: flex;
+}
+
+.form-edit-info-nav span {
+    width: 40px;
+    height: 100%;
+    border-right: 1px solid rgb(0,0,0,0.2);
+    background-color: #33383D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-edit-info-nav span:hover {
+    background-color: #212529;
+    cursor: pointer;
+}
+
+.form-edit-info-nav span i {
+    font-size: 17px;
+    display: inline-block;
+    color: #ffffff;
+}
+
+.blr-24 {
+    border-top-left-radius:24px;
+}
+
 .form-edit-user {
+    display: block;
     font-family:Montserrat-Regular;
     font-size:0.9em;
     color:#333;
@@ -1741,14 +1801,33 @@
     border:1px solid rgb(0,0,0,0.2)
 }
 
+.form-edit-user li {
+    list-style-type: none;
+}
+
+.form-edit-user li label {
+    display: flex;
+}
+
+.form-edit-user li label input{
+    margin-top: 3px;
+    width: 20px;
+    margin-right: 20px;
+}
+
+.form-edit-error {
+    padding-left: 5px;
+    color: red;
+    font-size: 12px;
+}
+
 .form-edit-label {
     font-family:Montserrat-Bold;
     font-size:0.9em;
     display: flex;
     justify-content:left;
-    align-items:center;
     width: 12em;
-    padding: 0 1em 0 0;
+    padding: 0.8em 1em 0 0;
 }
 
 .btn-save {
@@ -1989,30 +2068,188 @@
 
 .input-ava-container{
     text-align: center;
-    background-color: #000000;
     position: relative;
+}
+
+.input-ava-background {
+    position: relative;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    width: 180px;
+    height: 180px;
+    border-radius: 100px;
 }
 
 .input-ava-change {
     position: absolute;
     color: #212529;
-    bottom: 0px;
-    left: 500px;
     font-weight: 600;
-    padding: 10px 40px 10px 40px;
-    border-bottom-right-radius: 155px;
-    border-bottom-left-radius: 25px;
     background-color: #ffffff;
     font-size: 13px;
+    width: 180px;
+    padding: 7px 0 7px 0;
+    right: 0px;
+    bottom: 0px;
+    opacity: 0.8;
+    display: none;
+    cursor: pointer;
 }
-.input-ava-container img {
+
+.input-ava-img {
     position: relative;
     max-width:100%;
     height:auto;
     margin-left: auto;
     margin-right: auto;
+    width: 180px;
+    height: 180px;
+    cursor: pointer;
+    border-radius: 100px;
 }
 
+.input-ava-background:hover .input-ava-change {
+    display: block;
+}
+
+.link-nav {
+    text-decoration:none;
+    background-color: rgb(30, 144, 255);
+    border-radius: 25px;
+    color: #ffffff;
+    padding: 5px 15px;
+    font-size: 14px;
+    display: inline-block;
+    margin-right: 10px;
+    font-family: inglobal-bold;
+}
+
+.link-nav-active {
+    background-color: #E91C23;
+    color: #ffffff;
+}
+
+.link-nav:hover {
+    background-color: #E91C23;
+    color: #ffffff;
+}
+
+.tabs-nav {
+    display: flex;
+    list-style-type: none;
+    margin: 10px 0;
+}
+
+.container-nav {
+    width: 100%;
+}
+
+.event-name {
+    display: block;
+    font-family: Montserrat-ExtraBold;
+    font-size: 25px;
+}
+
+.event-info-txt ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.content-user-avatar {
+    display: inline-block;
+    border-radius: 35px;
+}
+
+.content-user-name {
+    font-size: 17px;
+    font-family: inglobal-Bold;
+    font-weight:bold;
+    padding-left: 7px;
+    padding-right: 7px;
+    display: inline-block;
+    vertical-align: middle;
+    color: #212529;
+}
+
+.content-user-menu:hover {
+    background-color: #F2F2F2;
+}
+
+.content-user-menu {
+    cursor:pointer;
+    display: inline-block;
+    vertical-align: middle;
+    border-radius:35px;
+    background-color: #fffff;
+    padding-right: 10px;
+    min-width: 150px;
+}
+
+.link-favorite {
+    text-decoration:none;
+    color: #212529;
+}
+
+.link-favorite:hover {
+
+}
+
+.link-favorite i {
+    color: #ffe700;
+    font-size: 25px;
+    margin-right: 7px;
+}
+
+.link-favorite span {
+    font-size: 20px;
+    font-family: inglobal-bold;
+}
+
+.func-l {
+    width: 25%;
+}
+
+.func-l span {
+    display: block;
+}
+
+.func-r {
+    width: 75%;
+}
+
+.content-f {
+    background-color: #ffffff;
+    width: 100%;
+    padding: 0 1em 1em 1em;
+}
+
+.funct-content {
+    margin-top: 1em;
+}
+
+.func-r-name {
+    font-size: 16px;
+    font-family: Montserrat-Bold;
+}
+
+.link-create {
+    text-decoration:none;
+    background-color: #1e90ff;
+    border-radius: 25px;
+    color: #ffffff;
+    padding: 5px 15px;
+    font-size: 14px;
+    display: inline-block;
+    margin-right: 10px;
+    font-family: inglobal-bold;
+}
+
+.link-create:hover {
+    background-color: #027FF7;
+    color: #ffffff;
+}
+
+=======
 .myInput {
   background-image: url('/static/img/search2.png');
   background-position: 5px 5px;
@@ -2129,3 +2366,4 @@
     font-family: Montserrat-Regular;
     padding:20px 0;
 }
+>>>>>>> fc0ab2b404058ff2253644413bfbb2568358135d

@@ -3,160 +3,130 @@
 {% load static %}
 {% block title %}Живи{% endblock %}
 {% block content %}
-<div class="limiter">
+<div class="limiter cl-gr">
       <div class="container-fix">
-            <h2 class="cl_h2">{{ event.name }}</h2>
-            <div style="display: flex">
-                  <div class="line_block_detail_1" id="event_modal">
-                        <img src="{{ event.avatar_url.url }}" width="120" height="120">
-                        <p><span >{{ user_count }}</span> волонтеров подали заявку на текущее мероприятие</p>
-                        {% if request.user != event.contact_user %}
-                              {% if following %}
-                                    <a href="{% url 'events:profile_unfollow' pk=event.pk %}">
-                                          <button>Отсоединиться</button>
-                                    </a>
-                              {% else %}
-                                    {% if count_remainder %}
-                                          <button v-on:click="openEvent">Присоединиться</button>
-                                                <div class="modalDialog" :key="menuEvent" v-if="menuEvent">
-                                                      <div class="form-edit-label_func">
-                                                            <form method="post" enctype="multipart/form-data">
-                                                                  <span class="close" v-on:click="openEvent">&times;</span>
-                                                              {% csrf_token %}
-                                                                {% for field in form %}
-                                                                            <label>
-                                                                                  <span>Выбери функцию для присоединения к проекту:</span>
-                                                                                  {{ field|add_class:'form-edit-user-func' }}
-                                                                            </label>
-                                                                          {% if field.help_text %}
-                                                                            <small id="{{ field.id_for_label }}-help">
-                                                                              {{ field.help_text|safe }}
-                                                                            </small>
-                                                                          {% endif %}
-                                                                      {% endfor %}
-                                                                        <button class="btn-save" type="submit">
-                                                                            Сохранить
-                                                                        </button>
-                                                            </form>
-                                                      </div>
-                                                </div>
-                                    {% else %}
-                                          <button>Волонтеры наброны</button>
-                                    {% endif %}
-                              {% endif %}
+            <div class="content-c d-flex">
+                <div class="content-l">
+                      <div class="content d-flex">
+                           <img width="180" height="180" src="{{ event.avatar_url.url }}">
+                           <div class="event-title">
+                                 <span class="event-name">{{ event.name }}</span>
+                                 {% if request.user == event.contact_user %}
+                                    <a class="link-create mt-2" href="{% url 'events:event_edit' pk=event.pk %}">Редактировать</a>
+                                 {% endif %}
+                           </div>
+                    </div>
+                    <div class="event-info">
+                        <div class="event-info-title">
+                            <span>Основная информация</span>
+                        </div>
+                        <div class="event-info-txt">
+                              <ul>
+                                    <li>
+                                         <a href="{% url 'projects:project_detail' pk=event.project.pk %}">{{ event.project }}</a>
+                                    </li>
+                                    <li>
+                                         {{ event.status }}
+                                    </li>
+                                    <li>
+                                          {{ event.date_start }} - {{ event.date_end }}
+                                    </li>
+                              </ul>
+                        </div>
+                    </div>
+                    <div class="event-info">
+                        <div class="event-info-title">
+                            <span>Описание</span>
+                        </div>
+                        <div class="event-info-txt">
+                              <span>{{ event.description }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-r">
+                    <div class="cr-r-info">
+                        {% if favorites %}
+                            <a class="link-favorite" href="{% url 'events:profile_unfavorite' pk=event.pk %}">
+                                <i class="fa-solid fa-star"></i><span>Из избранного</span>
+                            </a>
                         {% else %}
-                              <a href="{% url 'events:event_edit' pk=event.pk %}">
-                                    <button>Отредактировать</button>
-                              </a>
+                            <a class="link-favorite" href="{% url 'events:profile_favorite' pk=event.pk %}">
+                                <i class="fa-regular fa-star"></i><span>В избранное</span>
+                            </a>
                         {% endif %}
-                  </div>
-                  <div>
-                        <div style="display: flex">
-                              <div class="line_block_detail_2">
-                                    <ul>
-                                          <h3 style="font-family: Montserrat-Regular;font-size: 18px; font-weight: bold;">Основная информация:</h3>
-                                          <li>
-                                               <a href="{% url 'projects:project_detail' pk=event.project.pk %}"><img src="/static/img/organ.png" width="30" height="35"> {{ event.project }}</a>
-                                          </li>
-                                          <li>
-                                               <p><img src="/static/img/geo.png" width="30" height="30"> {{ event.status }}</p>
-                                          </li>
-
-                                          </li>
-                                          <li>
-                                                <p><img src="/static/img/date.png" width="25" height="25"> {{ event.date_start }} - {{ event.date_end }}</p>
-                                          </li>
-                                    </ul>
+                    </div>
+                    <div class="cr-r-title">
+                        <i class="fa-solid fa-ranking-star"></i>
+                        <span>Контактное лицо</span>
+                    </div>
+                    <div class="cr-r-info">
+                        <a class="map-user-link" href="{% url 'users:volunteer_detail' pk=event.contact_user.pk%}">
+                              <div class="content-user-menu mb-1">
+                                    <img width="40" height="40" class="content-user-avatar" src="{{event.contact_user.avatar.url}}">
+                                    <span class="content-user-name">{{event.contact_user.get_full_name}}</span>
                               </div>
-                              <div class="line_block_detail_3">
-                                    <ul>
-                                          <li>
-                                               <p><img src="/static/img/mail.png" width="30" height="30">{{ event.contact_user.email }}</p>
-                                          </li>
-                                          {% if favorites %}
-                                                <a href="{% url 'events:profile_unfavorite' pk=event.pk %}">
-                                                      <button>Убрать из избранного</button>
-                                                </a>
-                                          {% else %}
-
-                                                <a href="{% url 'events:profile_favorite' pk=event.pk %}">
-                                                      <button>Избранный</button>
-                                                </a>
-                                          {% endif %}
-                                    </ul>
-                              </div>
-                        </div>
-                        <div class="line_block_detail_4">
-                              <h3 style="font-family: Montserrat-Regular;font-size: 18px;font-weight: bold;">Описание</h3>
-                              <p>{{ event.description }}</p>
-                        </div>
-                        <div class="line_block_detail_main_5">
-                              {% if request.user == event.contact_user %}
-                                    <a href="{% url 'events:function_create' pk=event.pk %}">
-                                          <button>Создать функции</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="content-f">
+                <div class="event-info-title">
+                    <span>Функции</span>
+                    {% if request.user == event.contact_user %}
+                        <a class="link-create ms-4" href="{% url 'events:function_create' pk=event.pk %}">
+                              Добавить
+                        </a>
+                    {% endif%}
+                </div>
+                {% for function in functions %}
+                    <div class="funct-content d-flex">
+                        <div class="func-l text-center">
+                            <span class="func-l-name mb-4 inglobal-bold">{{ function.name }}</span>
+                            <span class="func-l-cnt mb-4 inglobal-bold">{{ function.following.count }} из {{ function.count }}</span>
+                            <div class="mb-4">
+                                {% for user_following in function.following.all %}
+                                    <a href="{% url 'users:volunteer_detail' pk=user_following.user.pk%}">
+                                        <img width="40" height="40" class="content-user-avatar me-2" src="{{user_following.user.avatar.url}}"></a>
+                                {% endfor %}
+                            </div>
+                            <div>
+                                {% if request.user == event.contact_user %}
+                                    <a class="link-create" href="{% url 'events:function_edit' pk=function.pk %}">
+                                         Редактировать
                                     </a>
-                              {% endif%}
-                              {% if len_functions > 0 %}
-                                    <h2 class="cl_h2">Функции</h2>
-                                          <ul>
-                                                {% for function in functions %}
-                                                <div class="line_block_detail_5">
-                                                      <li>
-                                                            <p>{{ function.name }}</p>
-                                                            <p>{{ function.description }}</p>
-                                                            <p>{{ function.task }}</p>
-                                                            <p>{{ function.condition }}</p>
-                                                            <p>Нужное кол-во волонтеров: {{ function.count }}</p>
-                                                            <p>Кол-во откликнулось: {{ function.following.count }}</p>
-                                                      </li>
-                                                      {% if request.user != event.contact_user %}
-                                                            {% if function.pk in following_func %}
-                                                                  <a href="{% url 'events:profile_unfollow_func' pk_event=event.pk pk_funk=function.pk %}">
-                                                                        <button>Отсоединиться от функции</button>
-                                                                  </a>
-                                                            {% else %}
-                                                                  {% if following %}
-                                                                              <button>Ты присоединился к другой функции</button>
-                                                                  {% else%}
-                                                                        {% if count_u_func|get_item:function.pk < function.count %}
-                                                                              <a href="{% url 'events:profile_follow_func' pk_event=event.pk pk_funk=function.pk %}">
-                                                                                    <button>Присоединиться к функции</button>
-                                                                              </a>
-                                                                        {% else %}
-                                                                              <button>Волонтеры наброны</button>
-                                                                        {% endif %}
-                                                                  {% endif %}
-                                                            {% endif %}
-                                                      {% endif %}
-                                                </div>
-                                                <p>{% if request.user == event.contact_user %}
-                                                      <a href="{% url 'events:function_edit' pk=function.pk %}">
-                                                            <button>Редактировать</button>
-                                                      </a>
-                                                {% endif%}</p>
-                                                {% endfor %}
-                                          </ul>
-                              {% endif%}
-                        </div>
-                        <div class="line_block_detail_main_5">
-                              {% if request.user == event.contact_user %}
-                                    {% if user_count > 0 %}
-                                          <h2>Откликнувшиеся волонтеры:</h2>
-                                          {% for user_following in users_following %}
-                                                <div class="line_block_detail_5">
-                                                      <ul>
-                                                            <li>
-                                                                  <span>{{ user_following.user.first_name }} {{ user_following.user.last_name }}
-                                                                        - {{ user_following.function }}</span>
-                                                                  <br><span>Номер телефона: {{ user_following.user.phone }}</span>
-                                                            </li>
-                                                      </ul>
-                                                </div>
-                                          {% endfor %}
+                                {% else %}
+                                    {% if function.pk in following_func %}
+                                        <a class="link-create" href="{% url 'events:profile_unfollow_func' pk_event=event.pk pk_funk=function.pk %}">
+                                            Выйти
+                                        </a>
+                                    {% else %}
+                                        {% if following %}
+                                            Вы присоединились к другой функции
+                                        {% else%}
+                                            {% if count_u_func|get_item:function.pk < function.count %}
+                                                <a class="link-create" href="{% url 'events:profile_follow_func' pk_event=event.pk pk_funk=function.pk %}">
+                                                   Присоединиться
+                                                </a>
+                                            {% else %}
+                                                Волонтеры наброны
+                                            {% endif %}
+                                        {% endif %}
                                     {% endif %}
-                              {% endif %}
+                                {% endif%}
+                            </div>
                         </div>
-                  </div>
+                        <div class="func-r">
+                            <div>
+                                <h4 class="func-r-name">Описание:</h4>
+                                <p>{{ function.description }}</p>
+                                <h4 class="func-r-name">Задачи:</h4>
+                                <p>{{ function.task }}</p>
+                                <h4 class="func-r-name">Условия:</h4>
+                                <p>{{ function.task }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
       </div>
 </div>

@@ -37,7 +37,10 @@ class Project(models.Model):
         blank=True,
         null=True
     )
-
+    marker = models.TextField(
+        verbose_name='Маркер',
+        null=True
+    )
 
     class Meta:
         verbose_name = 'Проекты'

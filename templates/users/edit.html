@@ -12,8 +12,30 @@
                         {% if field.label == 'Аватар'%}
                             {{field}}
                         {% else %}
-                            <div class="mt-4 d-flex">
-                                <span class="form-edit-label">{{field.label}}:</span> {{field|add_class:'form-edit-user'}}
+                            <div class="mt-4 d-flex" {% if field.field.required %}
+                                      aria-required="true"
+                                    {% else %}
+                                      aria-required="false"
+                                    {% endif %}>
+                                <span class="form-edit-label">{{field.label}}:</span>
+                                <div>
+                                    {% if field.label == 'Личная информация' %}
+                                        <div class="form-edit-info-container">
+                                            <div class="form-edit-info-nav">
+                                                <span id="form-edit-info-b" class="blr-24"><i class="fa-solid fa-bold"></i></span>
+                                                <span id="form-edit-info-p"><i class="fa-solid fa-paragraph"></i></span>
+                                            </div>
+                                            {{field}}
+                                        </div>
+                                    {% else %}
+                                        {{field|add_class:'form-edit-user'}}
+                                    {% endif %}
+                                    {% if field.errors %}
+                                        {% for error in field.errors %}
+                                            <span class="form-edit-error">* {{ error|escape }}</span>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
                             </div>
                         {% endif %}
                     {% endfor %}
@@ -24,4 +46,7 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block js %}
+    <script src="{% static 'js/volunteer_edit.js' %}"></script>
 {% endblock %}
