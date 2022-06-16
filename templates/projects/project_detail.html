@@ -2,64 +2,72 @@
 {% load static %}
 {% block title %}{{ project.name }}{% endblock %}
 {% block content %}
-<div class="limiter">
+<div class="limiter cl-gr">
       <div class="container-fix">
-          <div>
-              <div style="display: flex;">
-                    <div class="line_block_detail_project_1">
-                        <p><img src="{{ project.avatar_url.url }}" width="180" height="180"></p>
-                    </div>
-                    <div class="line_block_detail_project_2">
-                            <h2 class="cl_h2">{{ project.name }}</h2>
-                         <ul>
-                             <li>
-                                 <img src="/static/img/world.png" width="30" height="30"> {{ project.description }}
-                             </li>
-                         </ul>
-                        {% if favorites == 'part' %}
-                            <a href="{% url 'projects:profile_favorite_part' pk=project.pk %}">
-                                  <button>Следить за всеми мероприятиями</button>
-                            </a>
-                        {% elif favorites %}
-                            <a href="{% url 'projects:profile_unfavorite' pk=project.pk %}">
-                                  <button>Убрать из избранного</button>
-                            </a>
-                        {% else %}
-                            <a href="{% url 'projects:profile_favorite' pk=project.pk %}">
-                                  <button>Добавить в избранный</button>
-                            </a>
-                        {% endif %}
-                    </div>
+          <div class="content-c d-flex">
+              <div class="content-r text-center">
+                  <img src="{{ project.avatar_url.url }}" width="180" height="180">
               </div>
-              <div class="table_class">
-                  <table>
-                      <tr>
-                          <td><img src="/static/img/goal.png" width="25" height="25">Цель проекта: </td>
-                          <th>{{ project.goal }}</th>
-                      </tr>
-                      <tr>
-                          <td><img src="/static/img/result.png" width="25" height="25">Результат проекта: </td>
-                          <th>{{ project.result }}</th>
-                      </tr>
-                  </table>
+              <div class="content-l">
+                  <h2 class="cl_h2">{{ project.name }}</h2>
+                  <ul class="project_li">
+                     <li>
+                         {{ project.description }}
+                     </li>
+                  </ul>
+                    {% if favorites == 'part' %}
+                        <a class="link-create" href="{% url 'projects:profile_favorite_part' pk=project.pk %}">
+                              Следить за всеми мероприятиями
+                        </a>
+                    {% elif favorites %}
+                        <a class="link-favorite" href="{% url 'projects:profile_unfavorite' pk=project.pk %}">
+                              <i class="fa-solid fa-star"></i><span>Из избранного</span>
+                        </a>
+                    {% else %}
+                        <a class="link-favorite" href="{% url 'projects:profile_favorite' pk=project.pk %}">
+                              <i class="fa-regular fa-star"></i><span>В избранное</span>
+                        </a>
+                    {% endif %}
+
               </div>
-              <div class="line_block_detail_project_main_3">
+          </div>
+          <div class="content-c">
+              <div class="event-info-title">
+                    <span>Основная информация</span>
+              </div>
+               <div class="event-info-txt">
+                      <table>
+                          <tr>
+                              <td><img src="/static/img/goal.png" width="25" height="25">Цель проекта: </td>
+                              <th>{{ project.goal }}</th>
+                          </tr>
+                          <tr>
+                              <td><img src="/static/img/result.png" width="25" height="25">Результат проекта: </td>
+                              <th>{{ project.result }}</th>
+                          </tr>
+                      </table>
+               </div>
+              <div class="event-info-title">
+                    <span>Мероприятия</span>
+              </div>
+              <div class="event-info-txt">
                   {% if len_event > 0 %}
-                      <h2 class="cl_h2">Mероприятия проекта</h2>
-                         <ul>
-                             <div style="display: flex;">
-                             {% for event_project in events_project %}
-                             <div class="line_block_detail_project_3">
-                                 <li>
-                                     <img src="{{ event_project.avatar_url.url }}">
-                                     <br><a href="{% url 'events:event_detail' pk=event_project.pk %}">
-                                     <span>{{ event_project.name }}</span>
-                                     </a>
-                                 </li>
-                             </div>
-                             {% endfor %}
-                             </div>
-                         </ul>
+                  <div class="line_block">
+                      <div class="line_block_container">
+                        {% for project in events_project %}
+                            <a href="{% url 'events:event_detail' pk=project.pk %}">
+                                <div class="line_block_pr">
+                                    <img src="{{ project.avatar_url.url }}" width="200" height="200"> <br>
+                                    <p class="title_line_block">{{ project.name }}</p>
+                                    <p class="hideText">Смотреть подробнее>></p>
+                                </div>
+                            </a>
+                        {% endfor %}
+                      </div>
+                  </div>
+
+                  {% else %}
+                    Мероприятия отсутствуют
                   {% endif %}
               </div>
           </div>
