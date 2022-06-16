@@ -2,6 +2,7 @@ from django.forms import ModelForm, DateField, modelformset_factory
 from django import forms
 from .models import Follow, Function, Event
 from datetime import datetime
+from django.forms.widgets import ClearableFileInput
 
 
 class EventForm(ModelForm):
@@ -29,15 +30,21 @@ class DateTimeInputWidget(forms.DateTimeInput):
         return value
 
 
+class AvatarInput(ClearableFileInput):
+    template_name = "includes/avatar_input.html"
+
+
 class EventFormCreate(ModelForm):
     date_start = forms.DateTimeField(widget=DateTimeInputWidget(attrs={'type': 'datetime-local'}),
-                                     initial=datetime.today(), localize=True)
+                                     initial=datetime.today(), localize=True, label='Дата начала')
     date_end = forms.DateTimeField(widget=DateTimeInputWidget(attrs={'type': 'datetime-local'}),
-                                     initial=datetime.today(), localize=True)
+                                     initial=datetime.today(), localize=True, label='Дата окончания')
+    avatar_url = AvatarInput()
 
     class Meta:
         model = Event
         fields = ('name', 'status', 'avatar_url', 'description', 'date_start', 'date_end', 'project')
+
 
 
 class FunctionFormCreate(ModelForm):
