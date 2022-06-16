@@ -100,7 +100,8 @@
 .inglobal-bold {
     font-family: inglobal-Bold;
 }
-.link-light:hover{color:#5CB9FF;}
+.link-light{color: #212529;}
+.link-light:hover{background-color: #F5F5F5;color: #212529;}
 .user-name {
     font-size: 15px;
     font-family: inglobal-Bold;
@@ -2249,7 +2250,7 @@
     color: #ffffff;
 }
 
-=======
+
 .myInput {
   background-image: url('/static/img/search2.png');
   background-position: 5px 5px;
@@ -2270,37 +2271,15 @@
 
 
 #mySidenav a {
-    position: absolute; /* Position them relative to the browser window */
-    top: -80px;
+
+    /*top: -100px;*/
     transition: 0.3s; /* Add transition on hover */
     padding: 3.5%;
-    width: 20%; /* Set a specific width */
     text-decoration: none; /* Remove underline */
     font-size: 20px; /* Increase font size */
     color: white; /* White text color */
-    border-radius: 0 5px 5px 0; /* Rounded corners on the top right and bottom right side */
-}
 
-#mySidenav a:hover {
-    top: 0; /* On mouse-over, make the elements appear as they should */
 }
-
-/* The about link: 20px from the top with a green background */
-#about {
-    left: 20%;
-    background-color: #4CAF50;
-}
-
-#event {
-    left: 40%;
-    background-color: #2196F3; /* Blue */
-}
-
-#projects {
-    left: 60%;
-    background-color: #f44336; /* Red */
-}
-
 
 .modal-event {
   left: 0;
@@ -2366,4 +2345,69 @@
     font-family: Montserrat-Regular;
     padding:20px 0;
 }
->>>>>>> fc0ab2b404058ff2253644413bfbb2568358135d
+
+.line_block_container {
+    display: inline-block;
+    width: 100%;
+}
+
+.project_li {
+    list-style-type: none;
+    padding: 0;
+}
+
+.event-info-txt table {
+    empty-cells: hide;
+    width: 95%;
+    margin: 20px 40px;
+    border-radius: 10px;
+    display: block;
+}
+
+.event-info-txt tr {
+    padding-bottom: 10px;
+}
+
+.event-info-txt td {
+    font-size: 16px;
+    font-family: Montserrat-Bold;
+    width: 25%;
+    font-weight: normal;
+    padding: 10px 20px;
+    text-align: left;
+}
+
+.event-info-txt th {
+    font-family: Montserrat-Regular;
+    width:70%;
+    font-weight: normal;
+    color: black;
+    padding: 10px 8px;
+    text-align: left;
+}
+
+.head-an {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 900px;
+}
+
+.head-an a {
+    padding: 0 40px;
+    font-family: inglobal-bold;
+    display: flex;
+    align-items: center;
+    height: 42px;
+    text-decoration: none;
+    color: #212529;
+}
+
+.head-an a:hover {
+    background-color: #F5F5F5;
+}
+
+#event {
+    border-right: 1px solid rgb(0, 0, 0, 0.2);
+    border-left: 1px solid rgb(0, 0, 0, 0.2);
+}

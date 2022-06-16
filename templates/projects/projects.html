@@ -6,7 +6,7 @@
       <div class="container-fix">
         <div class="line_block">
             <h2 class="cl_h2">Наши проекты</h2>
-            <div>
+            <div class="line_block_container">
                 {% for project in projects %}
                     <a href="{% url 'projects:project_detail' pk=project.pk %}">
                         <div class="line_block_pr">
