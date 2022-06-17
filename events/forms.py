@@ -36,9 +36,9 @@ class EventInput(ClearableFileInput):
 
 class EventFormCreate(ModelForm):
     date_start = forms.DateTimeField(widget=DateTimeInputWidget(attrs={'type': 'datetime-local'}),
-                                     initial=datetime.today(), localize=True, label='Дата начала')
+                                    label='Дата начала')
     date_end = forms.DateTimeField(widget=DateTimeInputWidget(attrs={'type': 'datetime-local'}),
-                                   initial=datetime.today(), localize=True, label='Дата окончания')
+                                label='Дата окончания')
     avatar_url = forms.ImageField(widget=EventInput, label='Аватар мероприятия')
 
     class Meta:
