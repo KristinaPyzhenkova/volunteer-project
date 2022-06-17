@@ -30,20 +30,21 @@ class DateTimeInputWidget(forms.DateTimeInput):
         return value
 
 
-class AvatarInput(ClearableFileInput):
-    template_name = "includes/avatar_input.html"
+class EventInput(ClearableFileInput):
+    template_name = "includes/event_input.html"
 
 
 class EventFormCreate(ModelForm):
     date_start = forms.DateTimeField(widget=DateTimeInputWidget(attrs={'type': 'datetime-local'}),
                                      initial=datetime.today(), localize=True, label='Дата начала')
     date_end = forms.DateTimeField(widget=DateTimeInputWidget(attrs={'type': 'datetime-local'}),
-                                     initial=datetime.today(), localize=True, label='Дата окончания')
-    avatar_url = AvatarInput()
+                                   initial=datetime.today(), localize=True, label='Дата окончания')
+    avatar_url = forms.ImageField(widget=EventInput, label='Аватар мероприятия')
 
     class Meta:
         model = Event
-        fields = ('name', 'status', 'avatar_url', 'description', 'date_start', 'date_end', 'project')
+        fields = ('avatar_url', 'name', 'status', 'description', 'date_start', 'date_end', 'project')
+
 
 
 

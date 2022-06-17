@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load user_filters %}
 {% block title %}Создать функцию{% endblock %}
 {% block content %}
     <div class="limiter cl-gr">
@@ -9,14 +10,27 @@
                     <form method="post" enctype="multipart/form-data" {% if action_url %} action="{% url action_url %}" {% endif %}>
                         {% csrf_token %}
                           {% for field in form %}
-                            <span class="form-edit-label"><br>{{ field.label }}:</span>
-                                     <br>{{ field }}
-                                </label>
-                              {% if field.help_text %}
-                                <small id="{{ field.id_for_label }}-help">
-                                  {{ field.help_text|safe }}
-                                </small>
-                              {% endif %}
+                            <div class="mt-4 d-flex">
+                                <span class="form-edit-label">{{ field.label }}</span>
+                                    <div>
+                                        {% if field.label == 'Описание' or field.label == 'Задачи' or field.label == 'Условия' %}
+                                            <div class="form-edit-info-container">
+                                                <div class="form-edit-info-nav">
+                                                    <span id="form-edit-info-b" class="blr-24"><i class="fa-solid fa-bold"></i></span>
+                                                    <span id="form-edit-info-p"><i class="fa-solid fa-paragraph"></i></span>
+                                                </div>
+                                                {{field}}
+                                            </div>
+                                        {% else %}
+                                        {{field|add_class:'form-edit-user'}}
+                                        {% endif %}
+                                        {% if field.errors %}
+                                            {% for error in field.errors %}
+                                                <span class="form-edit-error">* {{ error|escape }}</span>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                            </div>
                           {% endfor %}
                             <button class="btn-save" type="submit">
                                 Сохранить
@@ -26,4 +40,7 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block js %}
+    <script src="{% static 'js/event_create.js' %}"></script>
 {% endblock %}

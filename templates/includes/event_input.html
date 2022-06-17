@@ -1,0 +1,7 @@
+<div class="input-ava-container">
+    <div class="input-ava-background">
+        <img id="ava-img" width="180" height="180" class="input-ava-img" src="{{ widget.value.url }}" onclick='ava.click()'>
+        <input id="ava" style="visibility:hidden;width:0px;" onchange="readURL(this)" type="{{ widget.type }}" name="{{ widget.name }}"{% include 'django/forms/widgets/attrs.html' %}/>
+        <span class="input-ava-change" onclick='ava.click()'>Выбрать</span>
+    </div>
+</div>

@@ -25,7 +25,8 @@ class Event(models.Model):
     )
     avatar_url = models.ImageField(
         upload_to=event_avatar_path,
-        verbose_name='Аватар мероприятия'
+        verbose_name='Аватар мероприятия',
+        default='events/avatars/4.png'
     )
     description = models.TextField(
         verbose_name='Описание события',

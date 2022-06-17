@@ -296,5 +296,5 @@ def function_edit(request, pk):
             'events:event_detail', kwargs={'pk': function.event.pk}
         ))
     return render(
-        request, 'events/create_event.html', {'form': form}
+        request, 'events/create_function.html', {'form': form}
     )

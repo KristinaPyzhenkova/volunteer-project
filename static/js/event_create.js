@@ -23,3 +23,35 @@ document.getElementById('form-edit-info-p').addEventListener('click', function()
         myElement.value.substring(myElement.selectionEnd, myElement.length)
     myElement.value = newStr
 });
+
+document.getElementById('form-edit-info-b').addEventListener('click', function(){
+    var myElement = document.getElementById('id_task');
+    var newStr = myElement.value.substring(0, myElement.selectionStart) +
+        '<b></b>' +
+        myElement.value.substring(myElement.selectionEnd, myElement.length)
+    myElement.value = newStr
+});
+
+document.getElementById('form-edit-info-p').addEventListener('click', function(){
+    var myElement = document.getElementById('id_task');
+    var newStr = myElement.value.substring(0, myElement.selectionStart) +
+        '<p></p>' +
+        myElement.value.substring(myElement.selectionEnd, myElement.length)
+    myElement.value = newStr
+});
+
+document.getElementById('form-edit-info-b').addEventListener('click', function(){
+    var myElement = document.getElementById('id_condition');
+    var newStr = myElement.value.substring(0, myElement.selectionStart) +
+        '<b></b>' +
+        myElement.value.substring(myElement.selectionEnd, myElement.length)
+    myElement.value = newStr
+});
+
+document.getElementById('form-edit-info-p').addEventListener('click', function(){
+    var myElement = document.getElementById('id_condition');
+    var newStr = myElement.value.substring(0, myElement.selectionStart) +
+        '<p></p>' +
+        myElement.value.substring(myElement.selectionEnd, myElement.length)
+    myElement.value = newStr
+});

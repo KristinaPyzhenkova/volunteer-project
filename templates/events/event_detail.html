@@ -39,7 +39,7 @@
                             <span>Описание</span>
                         </div>
                         <div class="event-info-txt">
-                              <span>{{ event.description }}</span>
+                              <span>{{ event.description|safe }}</span>
                         </div>
                     </div>
                 </div>
@@ -118,11 +118,11 @@
                         <div class="func-r">
                             <div>
                                 <h4 class="func-r-name">Описание:</h4>
-                                <p>{{ function.description }}</p>
+                                <p>{{ function.description|safe }}</p>
                                 <h4 class="func-r-name">Задачи:</h4>
-                                <p>{{ function.task }}</p>
+                                <p>{{ function.task|safe }}</p>
                                 <h4 class="func-r-name">Условия:</h4>
-                                <p>{{ function.task }}</p>
+                                <p>{{ function.task|safe }}</p>
                             </div>
                         </div>
                     </div>

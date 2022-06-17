@@ -11,15 +11,7 @@
                         {% csrf_token %}
                         {% for field in form %}
                             {% if field.label == 'Аватар мероприятия'%}
-<!--                                <div class="input-ava-container">-->
-<!--                                    <div class="input-ava-background">-->
-<!--                                        <img id="ava-img" width="180" height="180" class="input-ava-img" src="/media/events/avatars/1.png" onclick="ava.click()">-->
-<!--                                        <input id="ava" style="visibility:hidden;width:0px;" onchange="readURL(this)" type="file" name="avatar" accept="image/*">-->
-<!--                                        <input type="button" pseudo="file-selector-button" value="Выбрать файл">-->
-<!--                                        <span class="input-ava-change" onclick="ava.click()">Выбрать</span>-->
-                                        {{field}}
-<!--                                    </div>-->
-<!--                                </div>-->
+                                {{field}}
                             {% else %}
                                 <div class="mt-4 d-flex">
                                     <span class="form-edit-label">{{ field.label }}</span>
