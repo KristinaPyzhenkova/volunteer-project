@@ -6,18 +6,33 @@
     <div class="limiter cl-gr">
         <div class="container-fix">
             <div class="content-c">
-                <div class="form-edit-label">
                     <form method="post" enctype="multipart/form-data" {% if action_url %} action="{% url action_url %}" {% endif %}>
                         {% csrf_token %}
                           {% for field in form %}
                             <div class="mt-4 d-flex">
                                 <span class="form-edit-label">{{ field.label }}</span>
                                     <div>
-                                        {% if field.label == 'Описание' or field.label == 'Задачи' or field.label == 'Условия' %}
+                                        {% if field.label == 'Описание' %}
                                             <div class="form-edit-info-container">
                                                 <div class="form-edit-info-nav">
-                                                    <span id="form-edit-info-b" class="blr-24"><i class="fa-solid fa-bold"></i></span>
-                                                    <span id="form-edit-info-p"><i class="fa-solid fa-paragraph"></i></span>
+                                                    <span id="form-edit-info-b1" class="blr-24"><i class="fa-solid fa-bold"></i></span>
+                                                    <span id="form-edit-info-p1"><i class="fa-solid fa-paragraph"></i></span>
+                                                </div>
+                                                {{field}}
+                                            </div>
+                                        {% elif field.label == 'Задачи' %}
+                                            <div class="form-edit-info-container">
+                                                <div class="form-edit-info-nav">
+                                                    <span id="form-edit-info-b2" class="blr-24"><i class="fa-solid fa-bold"></i></span>
+                                                    <span id="form-edit-info-p2"><i class="fa-solid fa-paragraph"></i></span>
+                                                </div>
+                                                {{field}}
+                                            </div>
+                                        {% elif field.label == 'Условия' %}
+                                            <div class="form-edit-info-container">
+                                                <div class="form-edit-info-nav">
+                                                    <span id="form-edit-info-b3" class="blr-24"><i class="fa-solid fa-bold"></i></span>
+                                                    <span id="form-edit-info-p3"><i class="fa-solid fa-paragraph"></i></span>
                                                 </div>
                                                 {{field}}
                                             </div>
@@ -35,12 +50,11 @@
                             <button class="btn-save" type="submit">
                                 Сохранить
                             </button>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
 {% endblock %}
 {% block js %}
-    <script src="{% static 'js/event_create.js' %}"></script>
+    <script src="{% static 'js/function_create.js' %}"></script>
 {% endblock %}

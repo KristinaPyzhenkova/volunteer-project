@@ -16,6 +16,9 @@ INSTALLED_APPS = [
     'projects',
     'events',
     'auth_users',
+    #'bootstrap_datepicker_plus',
+    #'bootstrap4',
+    'datetimepicker',
     'django.forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -113,4 +116,5 @@ EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
+
 

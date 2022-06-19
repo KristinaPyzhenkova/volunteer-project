@@ -1,8 +1,10 @@
+
 from django.forms import ModelForm, DateField, modelformset_factory
 from django import forms
 from .models import Follow, Function, Event
 from datetime import datetime
-from django.forms.widgets import ClearableFileInput
+# from bootstrap_datepicker_plus.widgets import DateTimePickerInput
+from django.forms.widgets import ClearableFileInput, DateTimeInput
 
 
 class EventForm(ModelForm):
@@ -23,29 +25,23 @@ class EventForm(ModelForm):
         self.fields['function'].queryset = qs
 
 
-class DateTimeInputWidget(forms.DateTimeInput):
-    input_type = 'datetime'
-
-    def format_value(self, value):
-        return value
-
-
 class EventInput(ClearableFileInput):
     template_name = "includes/event_input.html"
 
 
 class EventFormCreate(ModelForm):
-    date_start = forms.DateTimeField(widget=DateTimeInputWidget(attrs={'type': 'datetime-local'}),
-                                    label='Дата начала')
-    date_end = forms.DateTimeField(widget=DateTimeInputWidget(attrs={'type': 'datetime-local'}),
-                                label='Дата окончания')
-    avatar_url = forms.ImageField(widget=EventInput, label='Аватар мероприятия')
+    date_start = forms.DateTimeField(
+        label='Дата начала')
+
+    date_end = forms.DateTimeField(
+        label='Дата окончания')
 
     class Meta:
         model = Event
         fields = ('avatar_url', 'name', 'status', 'description', 'date_start', 'date_end', 'project')
-
-
+        widgets = {
+            'avatar_url': EventInput
+        }
 
 
 class FunctionFormCreate(ModelForm):

@@ -2109,6 +2109,14 @@
     border-radius: 100px;
 }
 
+.input-ava-img-cr {
+    border-radius: 20px;
+}
+
+.input-ava-background-cr {
+    border-radius: 20px;
+}
+
 .input-ava-background:hover .input-ava-change {
     display: block;
 }

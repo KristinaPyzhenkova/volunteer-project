@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from events.views import EventsListActive, EventsListProcess, EventsListClose
 from . import views
