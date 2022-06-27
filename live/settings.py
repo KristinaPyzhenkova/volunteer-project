@@ -18,7 +18,7 @@ INSTALLED_APPS = [
     'auth_users',
     #'bootstrap_datepicker_plus',
     #'bootstrap4',
-    'datetimepicker',
+    # 'datetimepicker',
     'django.forms',
     'django.contrib.admin',
     'django.contrib.auth',

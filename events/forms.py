@@ -1,9 +1,7 @@
-
 from django.forms import ModelForm, DateField, modelformset_factory
 from django import forms
 from .models import Follow, Function, Event
 from datetime import datetime
-# from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 from django.forms.widgets import ClearableFileInput, DateTimeInput
 
 
@@ -38,7 +36,7 @@ class EventFormCreate(ModelForm):
 
     class Meta:
         model = Event
-        fields = ('avatar_url', 'name', 'status', 'description', 'date_start', 'date_end', 'project')
+        fields = ('coordinates_latitude', 'coordinates_longitude', 'address', 'avatar_url', 'name', 'status', 'description', 'date_start', 'date_end', 'project')
         widgets = {
             'avatar_url': EventInput
         }
